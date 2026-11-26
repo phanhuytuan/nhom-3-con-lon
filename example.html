@@ -3,811 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#090a18">
-  <title>ArtCanva Cosmic Lab</title>
-  <style>
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap');
-
-:root {
-  --bg: #090b16;
-  --sidebar: #0d0f1d;
-  --panel: #121426;
-  --panel-soft: #16182b;
-  --panel-raised: #1b1d33;
-  --text: #f5f3ff;
-  --muted: #9294ad;
-  --muted-dark: #686b83;
-  --line: rgba(255, 255, 255, .075);
-  --line-strong: rgba(255, 255, 255, .12);
-  --purple: #8b6cff;
-  --purple-dark: #6d4de0;
-  --cyan: #7de4f4;
-  --orange: #f4b873;
-  --green: #79c9a6;
-  --pink: #ef9fc5;
-  --shadow: 0 18px 50px rgba(0, 0, 0, .24);
-  --radius: 18px;
-  --font: 'Be Vietnam Pro', 'Segoe UI', sans-serif;
-  --display: 'Manrope', 'Be Vietnam Pro', 'Segoe UI', sans-serif;
-}
-
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  min-width: 360px;
-  background:
-    radial-gradient(circle at 75% 0%, rgba(92, 58, 160, .1), transparent 30%),
-    var(--bg);
-  color: var(--text);
-  font-family: var(--font);
-  font-size: 13px;
-  -webkit-font-smoothing: antialiased;
-}
-button, input, select, textarea { font: inherit; }
-button { color: inherit; cursor: pointer; }
-button, a, input { -webkit-tap-highlight-color: transparent; }
-button { border: 0; background: none; }
-button:focus-visible, input:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
-h1, h2, h3, h4, p { margin: 0; }
-h1, h2, h3, h4 { font-family: var(--display); }
-svg { display: block; }
-.icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: 0 0 auto; }
-.icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
-::selection { background: rgba(139, 108, 255, .4); color: white; }
-::-webkit-scrollbar { width: 7px; height: 7px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #303149; border-radius: 20px; }
-
-.app-shell { display: grid; grid-template-columns: 244px minmax(0, 1fr); min-height: 100vh; }
-.sidebar {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  display: flex;
-  flex-direction: column;
-  width: 244px;
-  height: 100vh;
-  padding: 26px 16px 16px;
-  background: linear-gradient(180deg, #101122 0%, #0c0e1a 100%);
-  border-right: 1px solid var(--line);
-}
-.brand { display: flex; align-items: center; gap: 11px; padding: 0 10px 26px; text-align: left; }
-.brand-mark { position: relative; display: grid; place-items: center; width: 38px; height: 38px; }
-.brand-planet { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: linear-gradient(135deg, #c2b4ff, #7550ea); box-shadow: 0 0 22px rgba(139, 108, 255, .6); }
-.brand-orbit { position: absolute; width: 37px; height: 18px; border: 1.7px solid #8fe6f5; border-radius: 50%; transform: rotate(-34deg); }
-.brand-orbit::after { content: ''; position: absolute; right: 1px; top: 1px; width: 4px; height: 4px; border-radius: 50%; background: #ffcf8b; }
-.brand-name { font-family: var(--display); font-size: 18px; font-weight: 800; letter-spacing: -.5px; }
-.brand-name small { display: block; margin-top: 1px; color: #7f8099; font-size: 8px; letter-spacing: 2.3px; font-weight: 700; }
-.sidebar-scroll { flex: 1; overflow-y: auto; padding-right: 2px; }
-.nav-label { margin: 6px 12px 12px; color: #62667e; font-size: 9px; font-weight: 700; letter-spacing: 1.35px; }
-.nav-label-second { margin-top: 28px; }
-.main-nav { display: flex; flex-direction: column; gap: 4px; }
-.nav-item { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 44px; padding: 0 12px; border: 1px solid transparent; border-radius: 11px; color: #9496ad; text-align: left; transition: .2s ease; }
-.nav-item .icon { width: 19px; height: 19px; }
-.nav-item:hover { color: var(--text); background: rgba(255, 255, 255, .035); }
-.nav-item.active { color: #d8ccff; background: linear-gradient(90deg, rgba(139, 108, 255, .2), rgba(139, 108, 255, .08)); border-color: rgba(139, 108, 255, .18); }
-.nav-item.active .icon { color: #a58aff; }
-.nav-badge { display: grid; place-items: center; min-width: 21px; height: 20px; margin-left: auto; padding: 0 5px; border-radius: 6px; color: #b8a7ff; background: rgba(139, 108, 255, .16); font-size: 10px; font-weight: 700; }
-.online-dot { width: 6px; height: 6px; margin-left: auto; border-radius: 50%; background: var(--green); box-shadow: 0 0 9px rgba(121, 201, 166, .55); }
-.class-mini-card { margin: 26px 4px 12px; padding: 13px 11px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255, 255, 255, .02); }
-.class-mini-top { display: flex; align-items: center; gap: 9px; }
-.class-icon { display: grid; place-items: center; width: 31px; height: 31px; border-radius: 9px; color: var(--cyan); background: rgba(125, 228, 244, .09); }
-.class-icon .icon { width: 17px; height: 17px; }
-.class-mini-top small { display: block; margin-bottom: 3px; color: #696d85; font-size: 7px; letter-spacing: .8px; }
-.class-mini-top strong { font-size: 11px; font-weight: 600; }
-.class-mini-top .icon-button { margin-left: auto; }
-.class-members { display: flex; align-items: center; margin-top: 13px; }
-.avatar { display: inline-grid; place-items: center; flex: 0 0 auto; width: 32px; height: 32px; border: 2px solid #121322; border-radius: 50%; color: #fff; font-family: var(--display); font-size: 9px; font-weight: 800; }
-.avatar + .avatar { margin-left: -8px; }
-.avatar-a { background: linear-gradient(135deg, #f2b2b1, #9f638d); }
-.avatar-b { background: linear-gradient(135deg, #91d5c7, #467c80); }
-.avatar-c { background: linear-gradient(135deg, #f4cc91, #a67c60); }
-.avatar-d { background: linear-gradient(135deg, #b6a8ef, #6757a4); }
-.avatar-more { color: #9b9eb3; background: #282a3d; }
-.class-members .avatar { width: 25px; height: 25px; font-size: 7px; }
-.class-members small { margin-left: 8px; color: #74778e; font-size: 9px; }
-.sidebar-bottom { margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--line); }
-.profile-card { display: flex; align-items: center; gap: 10px; width: 100%; margin-top: 10px; padding: 10px 8px; border-radius: 12px; text-align: left; transition: .2s; }
-.profile-card:hover { background: rgba(255, 255, 255, .035); }
-.avatar-profile { position: relative; width: 36px; height: 36px; background: linear-gradient(135deg, #c9a5ff, #6d4bc1); }
-.profile-status { position: absolute; right: -1px; bottom: -1px; width: 9px; height: 9px; border: 2px solid #111322; border-radius: 50%; background: var(--green); }
-.profile-info { flex: 1; }
-.profile-info strong { display: block; font-size: 11px; font-weight: 600; }
-.profile-info small { display: block; margin-top: 3px; color: #74778e; font-size: 8px; }
-.profile-card > .icon { width: 16px; height: 16px; color: #686b82; }
-
-.app-main { min-width: 0; }
-.topbar { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; justify-content: space-between; height: 72px; padding: 0 32px; background: rgba(9, 11, 22, .84); border-bottom: 1px solid var(--line); backdrop-filter: blur(18px); }
-.breadcrumb { display: flex; align-items: center; gap: 10px; font-size: 11px; }
-.breadcrumb-root { color: #686b83; }
-.breadcrumb .icon { width: 13px; height: 13px; color: #484b63; }
-.breadcrumb strong { font-weight: 500; color: #c6c6d7; }
-.topbar-actions { display: flex; align-items: center; gap: 12px; }
-.global-search { position: relative; display: flex; align-items: center; width: 276px; height: 38px; padding: 0 11px; border: 1px solid var(--line); border-radius: 10px; background: rgba(255, 255, 255, .025); transition: .2s; }
-.global-search:focus-within { border-color: rgba(139, 108, 255, .5); background: rgba(139, 108, 255, .05); }
-.global-search > .icon { width: 16px; height: 16px; color: #6f7289; }
-.global-search input { width: 100%; min-width: 0; height: 100%; padding: 0 9px; border: 0; outline: 0; color: var(--text); background: transparent; font-size: 10px; }
-.global-search input::placeholder { color: #6f7289; }
-kbd { padding: 3px 5px; border: 1px solid var(--line-strong); border-radius: 5px; color: #797c92; background: rgba(255, 255, 255, .03); font-family: inherit; font-size: 8px; white-space: nowrap; }
-.search-results { position: absolute; top: calc(100% + 8px); left: 0; z-index: 60; display: none; width: 100%; padding: 6px; border: 1px solid var(--line-strong); border-radius: 12px; background: #17192a; box-shadow: var(--shadow); }
-.search-results.show { display: block; }
-.search-result { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px; border-radius: 8px; color: #d9d7e8; text-align: left; font-size: 10px; }
-.search-result:hover { background: rgba(139, 108, 255, .12); }
-.search-result .icon { width: 16px; height: 16px; color: #9a82ee; }
-.search-empty { padding: 16px 10px; color: var(--muted); text-align: center; font-size: 10px; }
-.icon-button { display: inline-grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 1px solid transparent; border-radius: 10px; color: #9698af; transition: .18s ease; }
-.icon-button:hover { color: var(--text); border-color: var(--line); background: rgba(255, 255, 255, .04); }
-.icon-button:disabled { opacity: .3; cursor: default; transform: none; }
-.icon-button.tiny { width: 26px; height: 26px; border-radius: 7px; }
-.icon-button.tiny .icon { width: 14px; height: 14px; }
-.notification-button { position: relative; }
-.notification-button .icon { width: 18px; height: 18px; }
-.notification-button > span { position: absolute; top: 7px; right: 8px; width: 5px; height: 5px; border: 1px solid #0b0d18; border-radius: 50%; background: var(--orange); }
-.topbar-avatar { width: 34px; height: 34px; margin-left: 2px; }
-.mobile-menu { display: none; }
-.sidebar-backdrop { display: none; }
-
-.main-content { max-width: 1660px; margin: 0 auto; padding: 30px 32px 90px; }
-.view { display: none; animation: viewIn .3s ease; }
-.view.active { display: block; }
-@keyframes viewIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-.welcome-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 26px; }
-.eyebrow { margin-bottom: 8px; color: #8d78d9; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; }
-.welcome-row h1, .page-header h1, .studio-page-header h1 { font-size: clamp(25px, 2.4vw, 34px); line-height: 1.25; font-weight: 700; letter-spacing: -1.2px; }
-.wave-orbit { display: inline-block; margin-left: 4px; color: var(--orange); font-size: 25px; transform: rotate(14deg); }
-.page-description { margin-top: 8px; color: var(--muted); font-size: 11px; line-height: 1.7; }
-.welcome-actions { display: flex; gap: 10px; padding-bottom: 2px; }
-.button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 39px; padding: 0 16px; border: 1px solid transparent; border-radius: 10px; font-size: 10px; font-weight: 600; white-space: nowrap; transition: transform .18s ease, background .18s ease, border-color .18s ease; }
-.button:hover { transform: translateY(-1px); }
-.button .icon { width: 16px; height: 16px; }
-.button-primary { color: #fff; background: linear-gradient(135deg, #8d6bff, #6f4bdf); box-shadow: 0 7px 22px rgba(112, 75, 223, .22); }
-.button-primary:hover { background: linear-gradient(135deg, #9b7cff, #7c57ec); }
-.button-secondary { color: #c7c6d8; border-color: var(--line-strong); background: rgba(255, 255, 255, .025); }
-.button-secondary:hover { color: #fff; border-color: rgba(139, 108, 255, .4); background: rgba(139, 108, 255, .08); }
-.button-light { color: #312556; background: #f1ecff; }
-.button-light:hover { background: #fff; }
-.full-width { width: 100%; }
-.text-button { display: inline-flex; align-items: center; gap: 6px; padding: 4px 0; color: #a28be9; font-size: 9px; font-weight: 600; }
-.text-button:hover { color: #c8b8ff; }
-.text-button .icon { width: 14px; height: 14px; }
-
-.dashboard-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 22px; }
-.dashboard-main, .dashboard-aside { min-width: 0; }
-.dashboard-aside { display: flex; flex-direction: column; gap: 18px; }
-.hero-card { position: relative; min-height: 335px; overflow: hidden; padding: 34px 32px 0; border: 1px solid rgba(167, 138, 255, .18); border-radius: 21px; background: linear-gradient(115deg, #19152f 0%, #1d183c 48%, #11172b 100%); box-shadow: 0 16px 50px rgba(0, 0, 0, .2); }
-.hero-glow { position: absolute; border-radius: 50%; filter: blur(10px); pointer-events: none; }
-.hero-glow-one { top: -100px; left: 22%; width: 330px; height: 330px; background: rgba(117, 80, 218, .16); }
-.hero-glow-two { right: -110px; bottom: -150px; width: 380px; height: 380px; background: rgba(82, 179, 211, .08); }
-.hero-stars { position: absolute; inset: 0; opacity: .7; background-image: radial-gradient(circle, rgba(255,255,255,.8) 0 1px, transparent 1.4px), radial-gradient(circle, rgba(174,224,255,.7) 0 1px, transparent 1.4px); background-size: 139px 127px, 197px 181px; background-position: 10px 20px, 73px 82px; mask-image: linear-gradient(90deg, transparent, black 35%, black); }
-.hero-copy { position: relative; z-index: 2; max-width: 52%; }
-.pill { display: inline-flex; align-items: center; gap: 7px; padding: 6px 9px; border-radius: 6px; font-size: 7px; font-weight: 700; letter-spacing: 1.15px; }
-.pill-purple { color: #c7b9ff; border: 1px solid rgba(168, 142, 255, .2); background: rgba(139, 108, 255, .12); }
-.pill-dot { width: 5px; height: 5px; border-radius: 50%; background: #b9a5ff; box-shadow: 0 0 8px #a98eff; }
-.hero-copy h2 { margin-top: 18px; font-size: clamp(31px, 3vw, 43px); line-height: 1.16; font-weight: 700; letter-spacing: -1.8px; }
-.hero-copy h2 span { color: #a995ff; }
-.hero-copy > p { max-width: 330px; margin-top: 14px; color: #a8a4be; font-size: 10px; line-height: 1.8; }
-.hero-copy .button { margin-top: 20px; min-height: 36px; font-size: 9px; }
-.hero-art { position: absolute; z-index: 1; top: -2px; right: -13px; width: 48%; height: 285px; }
-.hero-art svg { width: 100%; height: 100%; }
-.hero-footer { position: absolute; z-index: 3; right: 0; bottom: 0; left: 0; display: flex; align-items: center; justify-content: space-between; min-height: 69px; padding: 0 28px; border-top: 1px solid rgba(255, 255, 255, .07); background: rgba(9, 10, 24, .28); backdrop-filter: blur(10px); }
-.hero-level { display: flex; align-items: center; gap: 10px; }
-.level-icon { display: grid; place-items: center; width: 33px; height: 33px; border: 1px solid rgba(165, 149, 255, .2); border-radius: 9px; color: #a28ce8; background: rgba(139, 108, 255, .1); }
-.level-icon .icon { width: 18px; height: 18px; }
-.hero-level small { display: block; margin-bottom: 4px; color: #77718e; font-size: 7px; letter-spacing: 1px; }
-.hero-level strong { font-size: 9px; font-weight: 500; color: #c8c3d8; }
-.hero-progress { width: 170px; }
-.hero-progress > div:first-child { display: flex; justify-content: space-between; margin-bottom: 8px; color: #88839d; font-size: 8px; }
-.hero-progress strong { color: #d0c6ee; font-weight: 600; }
-.progress-track { display: block; height: 4px; overflow: hidden; border-radius: 10px; background: rgba(255, 255, 255, .07); }
-.progress-track > span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #8d6bff, #b6a2ff); }
-
-.metric-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
-.metric-card { position: relative; display: flex; align-items: center; gap: 11px; min-height: 88px; padding: 15px; border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(135deg, rgba(255,255,255,.026), rgba(255,255,255,.012)); }
-.metric-icon { display: grid; place-items: center; flex: 0 0 auto; width: 39px; height: 39px; border-radius: 11px; }
-.metric-icon .icon { width: 19px; height: 19px; }
-.metric-icon.purple { color: #b59dff; background: rgba(139, 108, 255, .12); }
-.metric-icon.orange { color: #f1b879; background: rgba(244, 184, 115, .1); }
-.metric-icon.cyan { color: #7cdde9; background: rgba(125, 228, 244, .09); }
-.metric-icon.green { color: #7dc9a8; background: rgba(121, 201, 166, .1); }
-.metric-card small { display: block; margin-bottom: 7px; color: #72758c; font-size: 6.5px; font-weight: 600; letter-spacing: .6px; }
-.metric-card strong { font-family: var(--display); font-size: 19px; font-weight: 700; }
-.metric-card strong span { color: #8f91a7; font-family: var(--font); font-size: 8px; font-weight: 400; }
-.metric-trend { position: absolute; top: 13px; right: 12px; color: #79c9a6; font-size: 6.5px; }
-.metric-note { position: absolute; right: 12px; bottom: 13px; color: #a77f51; font-size: 6.5px; }
-.metric-link { position: absolute; right: 11px; bottom: 12px; display: flex; align-items: center; gap: 2px; padding: 0; color: #6f9eaa; font-size: 6.5px; }
-.metric-link .icon { width: 10px; height: 10px; }
-
-.section-block { margin-top: 28px; }
-.section-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 15px; }
-.section-heading h2 { font-size: 16px; font-weight: 700; letter-spacing: -.35px; }
-.section-heading p { margin-top: 5px; color: #7e8096; font-size: 9px; }
-.planet-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-.planet-card { position: relative; display: flex; flex-direction: column; align-items: stretch; min-height: 218px; overflow: hidden; padding: 13px 14px 15px; border: 1px solid var(--line); border-radius: 15px; background: linear-gradient(160deg, #15172a, #111322); text-align: left; transition: .22s ease; }
-.planet-card:hover { transform: translateY(-3px); border-color: rgba(139, 108, 255, .28); box-shadow: 0 12px 28px rgba(0,0,0,.18); }
-.planet-state { display: inline-flex; align-items: center; gap: 5px; align-self: flex-start; padding: 4px 7px; border: 1px solid var(--line); border-radius: 5px; color: #73768e; font-size: 6px; font-weight: 700; letter-spacing: .8px; }
-.planet-state .icon { width: 9px; height: 9px; }
-.planet-state.state-current { color: #bcaaff; border-color: rgba(139,108,255,.18); background: rgba(139,108,255,.08); }
-.state-current > span { width: 4px; height: 4px; border-radius: 50%; background: #a78dff; }
-.planet-visual { position: relative; display: grid; place-items: center; height: 92px; margin: -2px 0 -1px; }
-.planet-sphere { position: relative; z-index: 2; width: 62px; height: 62px; border-radius: 50%; }
-.planet-one .planet-sphere { background: radial-gradient(circle at 30% 25%, #d7ccff, #8f72f1 40%, #4e368e 90%); box-shadow: inset -8px -7px 18px rgba(23, 12, 61, .4), 0 0 24px rgba(139, 108, 255, .15); }
-.planet-one .planet-sphere::after { content: ''; position: absolute; top: 18px; left: 8px; width: 16px; height: 9px; border-radius: 50%; background: rgba(235,228,255,.2); transform: rotate(-25deg); }
-.planet-two .planet-sphere { background: radial-gradient(circle at 30% 25%, #ffe0b5, #e8a76e 42%, #945d4a 90%); box-shadow: inset -8px -7px 18px rgba(74, 32, 26, .35); }
-.planet-two .planet-sphere::after { content: ''; position: absolute; inset: 15px 20px; border-radius: 50%; background: rgba(255,242,222,.16); }
-.planet-three .planet-sphere { background: radial-gradient(circle at 30% 25%, #c0f5fa, #64b6cb 40%, #315d83 90%); box-shadow: inset -8px -7px 18px rgba(16, 45, 66, .4); }
-.planet-orbit { position: absolute; z-index: 3; width: 104px; height: 31px; border: 1px solid rgba(185, 223, 255, .4); border-radius: 50%; transform: rotate(-19deg); }
-.planet-two .planet-orbit { border-color: rgba(255, 220, 173, .4); transform: rotate(17deg); }
-.planet-three .planet-orbit { border-color: rgba(148, 231, 245, .42); transform: rotate(-27deg); }
-.planet-visual i { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #fff; box-shadow: 0 0 6px #fff; }
-.planet-visual i:nth-of-type(1) { top: 20px; right: 18%; }
-.planet-visual i:nth-of-type(2) { bottom: 17px; left: 16%; width: 2px; height: 2px; opacity: .5; }
-.planet-copy { display: block; }
-.planet-copy small { display: block; margin-bottom: 5px; color: #686b83; font-size: 6.5px; font-weight: 700; letter-spacing: 1px; }
-.planet-copy strong { display: block; font-family: var(--display); font-size: 12px; font-weight: 600; }
-.planet-copy > span { display: block; margin-top: 5px; color: #76798f; font-size: 7.5px; }
-.planet-progress { display: block; height: 3px; margin-top: 12px; overflow: hidden; border-radius: 10px; background: rgba(255,255,255,.05); }
-.planet-progress > span { display: block; height: 100%; background: #9278f0; }
-
-.continue-lesson-card { position: relative; display: flex; align-items: stretch; gap: 20px; width: 100%; padding: 13px; border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(115deg, #15172a, #121423); text-align: left; transition: .2s; }
-.continue-lesson-card:hover { border-color: rgba(139,108,255,.28); background: #17192c; }
-.lesson-art { position: relative; flex: 0 0 39%; max-width: 260px; min-height: 150px; overflow: hidden; border-radius: 11px; }
-.lesson-art svg { width: 100%; height: 100%; object-fit: cover; }
-.lesson-play { position: absolute; top: 50%; left: 50%; display: grid; place-items: center; width: 39px; height: 39px; border: 1px solid rgba(255,255,255,.5); border-radius: 50%; color: #fff; background: rgba(32,25,62,.45); backdrop-filter: blur(5px); transform: translate(-50%, -50%); transition: .2s; }
-.continue-lesson-card:hover .lesson-play { color: #493579; background: #fff; transform: translate(-50%, -50%) scale(1.07); }
-.lesson-play .icon { width: 16px; height: 16px; margin-left: 2px; }
-.continue-copy { display: flex; flex: 1; flex-direction: column; justify-content: center; min-width: 0; padding-right: 25px; }
-.lesson-tag { color: #8f78d9; font-size: 6.5px; font-weight: 700; letter-spacing: .8px; }
-.continue-copy > strong { margin-top: 7px; font-family: var(--display); font-size: 16px; font-weight: 700; }
-.continue-copy > span:nth-of-type(2) { margin-top: 7px; color: #8b8da3; font-size: 8px; line-height: 1.7; }
-.continue-meta { display: flex; align-items: center; gap: 14px; margin-top: 11px; color: #76798f; font-size: 7px; }
-.continue-meta > span { display: inline-flex; align-items: center; gap: 4px; }
-.continue-meta .icon { width: 11px; height: 11px; }
-.continue-meta .lesson-percent { margin-left: auto; color: #ab95ef; font-weight: 600; }
-.continue-copy .progress-track { height: 3px; margin-top: 7px; }
-.continue-arrow { position: absolute; top: 50%; right: 15px; display: grid; place-items: center; width: 27px; height: 27px; border: 1px solid var(--line); border-radius: 8px; color: #8e91a7; transform: translateY(-50%); }
-.continue-arrow .icon { width: 13px; height: 13px; }
-
-.card-panel { padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: linear-gradient(145deg, #141627, #111322); }
-.panel-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
-.panel-heading h3 { font-size: 13px; font-weight: 600; }
-.panel-heading p { margin-top: 5px; color: #7e8096; font-size: 8px; }
-.panel-kicker { display: block; margin-bottom: 5px; color: #8b77d0; font-size: 6.5px; font-weight: 700; letter-spacing: 1px; }
-.nova-card { position: relative; overflow: hidden; padding: 22px 20px 18px; border: 1px solid rgba(154, 126, 244, .2); border-radius: 17px; background: radial-gradient(circle at 50% 0%, rgba(139,108,255,.2), transparent 42%), linear-gradient(155deg, #1c1737, #14172b 72%); }
-.nova-card::after { content: ''; position: absolute; top: -80px; left: -40px; width: 160px; height: 160px; border-radius: 50%; background: rgba(139,108,255,.08); filter: blur(25px); }
-.nova-orb { position: relative; z-index: 1; display: grid; place-items: center; width: 54px; height: 54px; margin: 0 auto 13px; border: 1px solid rgba(199,184,255,.35); border-radius: 18px; color: #ded4ff; background: linear-gradient(135deg, rgba(174,149,255,.32), rgba(96,67,172,.24)); box-shadow: 0 0 30px rgba(139,108,255,.15), inset 0 0 20px rgba(255,255,255,.04); transform: rotate(-6deg); }
-.nova-orb > span { position: absolute; inset: 7px; border: 1px solid rgba(210,196,255,.14); border-radius: 12px; }
-.nova-orb .icon { position: relative; z-index: 1; width: 25px; height: 25px; transform: rotate(6deg); }
-.nova-orb.small { width: 38px; height: 38px; margin: 0; border-radius: 12px; }
-.nova-orb.small .icon { width: 18px; height: 18px; }
-.nova-status { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 6px; color: #8f80b9; font-size: 6.5px; font-weight: 700; letter-spacing: 1.2px; }
-.nova-status > span { width: 5px; height: 5px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px rgba(121,201,166,.5); }
-.nova-card h2 { position: relative; z-index: 1; margin-top: 12px; font-size: 18px; line-height: 1.35; font-weight: 600; text-align: center; letter-spacing: -.4px; }
-.nova-card > p { position: relative; z-index: 1; margin: 9px auto 15px; max-width: 240px; color: #8f8ba5; font-size: 8px; line-height: 1.8; text-align: center; }
-.prompt-list { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 7px; }
-.prompt-list button { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 11px; border: 1px solid rgba(255,255,255,.07); border-radius: 9px; color: #c0bbd1; background: rgba(255,255,255,.025); text-align: left; font-size: 7.5px; transition: .18s; }
-.prompt-list button:hover { color: #e4ddff; border-color: rgba(139,108,255,.3); background: rgba(139,108,255,.08); }
-.prompt-list .icon { width: 12px; height: 12px; color: #8270b4; }
-.nova-chat-button { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 7px; width: 100%; height: 34px; margin-top: 13px; border: 1px solid rgba(164,140,247,.2); border-radius: 9px; color: #c7b7f9; background: rgba(139,108,255,.1); font-size: 8px; font-weight: 600; }
-.nova-chat-button:hover { background: rgba(139,108,255,.18); }
-.nova-chat-button .icon { width: 14px; height: 14px; }
-.xp-badge, .streak-pill, .soft-badge, .level-badge { display: inline-flex; align-items: center; gap: 4px; padding: 5px 8px; border-radius: 6px; color: #e9bb7b; background: rgba(244,184,115,.09); font-size: 7px; font-weight: 600; white-space: nowrap; }
-.challenge-art { position: relative; display: grid; place-items: center; height: 104px; margin: 10px -2px 4px; overflow: hidden; border-radius: 10px; background: radial-gradient(circle at 40% 30%, #2b2350, #15172a 68%); }
-.challenge-planet { position: absolute; width: 64px; height: 64px; border-radius: 50%; background: radial-gradient(circle at 30% 25%, #d9c9ff, #8a6cdb 45%, #49316f); box-shadow: 0 0 25px rgba(139,108,255,.2); }
-.challenge-ring { position: absolute; z-index: 2; width: 108px; height: 25px; border: 2px solid #8fd7e6; border-radius: 50%; transform: rotate(-22deg); opacity: .7; }
-.challenge-art > svg { position: absolute; z-index: 3; top: 14px; right: 39px; width: 25px; height: 25px; filter: drop-shadow(0 0 7px rgba(255,255,255,.5)); }
-.challenge-star { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #fff; box-shadow: 0 0 5px #fff; }
-.challenge-star.star-one { top: 24px; left: 30px; }
-.challenge-star.star-two { right: 27px; bottom: 22px; }
-.daily-challenge h4 { margin-top: 8px; font-size: 12px; font-weight: 600; }
-.daily-challenge > p { margin-top: 7px; color: #82849a; font-size: 8px; line-height: 1.7; }
-.challenge-meta { display: flex; gap: 12px; margin: 11px 0 14px; color: #73768c; font-size: 7px; }
-.challenge-meta span { display: inline-flex; align-items: center; gap: 4px; }
-.challenge-meta .icon { width: 11px; height: 11px; }
-.daily-challenge .button { min-height: 33px; font-size: 8px; }
-.streak-pill { color: #efb479; }
-.streak-pill .icon { width: 11px; height: 11px; }
-.week-days { display: flex; justify-content: space-between; margin-top: 17px; }
-.week-days > span { display: flex; flex-direction: column; align-items: center; gap: 7px; }
-.week-days small { color: #6e7288; font-size: 7px; }
-.week-days i { display: grid; place-items: center; width: 26px; height: 26px; border: 1px solid var(--line); border-radius: 50%; color: #777a8e; font-size: 8px; font-style: normal; }
-.week-days .done i { color: #b9a4ff; border-color: rgba(139,108,255,.22); background: rgba(139,108,255,.1); }
-.week-days .done .icon { width: 12px; height: 12px; }
-.week-days .today i { color: #19152f; border-color: #a48cf5; background: #a48cf5; font-weight: 700; box-shadow: 0 0 14px rgba(139,108,255,.25); }
-.weekly-quote { display: flex; align-items: center; gap: 8px; margin-top: 16px; padding-top: 13px; border-top: 1px solid var(--line); color: #777a91; }
-.weekly-quote .icon { width: 14px; height: 14px; color: #b2935f; }
-.weekly-quote p { font-size: 7.5px; font-style: italic; }
-
-.page-header, .studio-page-header { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 26px; }
-.learning-summary { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.02); }
-.summary-ring { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: conic-gradient(#8e70f2 calc(var(--progress)), #25273a 0); }
-.summary-ring::before { content: ''; grid-area: 1 / 1; width: 38px; height: 38px; border-radius: 50%; background: #111322; }
-.summary-ring strong { position: relative; grid-area: 1 / 1; font-family: var(--display); font-size: 11px; }
-.learning-summary > span:last-child small { display: block; margin-bottom: 5px; color: #6f7289; font-size: 7px; letter-spacing: .7px; }
-.learning-summary > span:last-child strong { font-size: 10px; font-weight: 600; }
-.filter-row { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
-.filter-chip { padding: 8px 13px; border: 1px solid var(--line); border-radius: 8px; color: #86899f; background: rgba(255,255,255,.02); font-size: 8px; transition: .18s; }
-.filter-chip:hover { color: #d8d4e8; }
-.filter-chip.active { color: #cdbdff; border-color: rgba(139,108,255,.25); background: rgba(139,108,255,.12); }
-.learning-path { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 20px; }
-.learning-module { display: grid; grid-template-columns: 165px minmax(0, 1fr); overflow: hidden; border: 1px solid var(--line); border-radius: 17px; background: #121423; transition: .2s; }
-.learning-module:hover { transform: translateY(-2px); border-color: rgba(139,108,255,.22); }
-.module-visual { position: relative; display: grid; place-items: center; min-height: 230px; overflow: hidden; }
-.module-purple { background: radial-gradient(circle at 35% 30%, #302452, #17172a 75%); }
-.module-orange { background: radial-gradient(circle at 35% 30%, #46312d, #1e1824 75%); }
-.module-cyan { background: radial-gradient(circle at 35% 30%, #203f4c, #121c29 75%); }
-.module-pink { background: radial-gradient(circle at 35% 30%, #43283e, #211522 75%); }
-.module-number { position: absolute; top: 12px; left: 13px; color: rgba(255,255,255,.25); font-family: var(--display); font-size: 12px; font-weight: 700; }
-.module-planet { position: relative; z-index: 1; width: 75px; height: 75px; border-radius: 50%; box-shadow: inset -10px -8px 20px rgba(0,0,0,.3); }
-.module-purple .module-planet { background: radial-gradient(circle at 30% 25%, #d9cdff, #8465dd 48%, #442c7b); }
-.module-orange .module-planet { background: radial-gradient(circle at 30% 25%, #ffe0b5, #d28e64 48%, #7b453e); }
-.module-cyan .module-planet { background: radial-gradient(circle at 30% 25%, #c5f5fa, #5cabc4 48%, #2b5875); }
-.module-pink .module-planet { background: radial-gradient(circle at 30% 25%, #f7cde7, #c47eac 48%, #713f69); }
-.module-orbit { position: absolute; z-index: 2; width: 127px; height: 37px; border: 1px solid rgba(222,226,255,.4); border-radius: 50%; transform: rotate(-23deg); }
-.module-body { display: flex; flex-direction: column; justify-content: center; padding: 20px; }
-.status-label { display: inline-flex; align-items: center; gap: 5px; align-self: flex-start; color: #74778d; font-size: 6.5px; font-weight: 700; letter-spacing: .7px; }
-.status-label .icon { width: 10px; height: 10px; }
-.status-label.current { color: #af97f3; }
-.status-label.current > span { width: 4px; height: 4px; border-radius: 50%; background: #ad94fa; }
-.module-body h2 { margin-top: 9px; font-size: 17px; font-weight: 600; }
-.module-body > p { margin-top: 7px; color: #82849a; font-size: 8px; line-height: 1.75; }
-.module-meta { display: flex; gap: 13px; margin-top: 12px; color: #74778e; font-size: 7px; }
-.module-meta span { display: inline-flex; align-items: center; gap: 4px; }
-.module-meta .icon { width: 11px; height: 11px; }
-.module-progress { display: flex; align-items: center; gap: 9px; margin: 13px 0; }
-.module-progress .progress-track { flex: 1; }
-.module-progress strong { color: #9e8acb; font-size: 7px; }
-.module-body .button { align-self: flex-start; min-height: 33px; font-size: 8px; }
-
-.studio-page-header { align-items: flex-end; margin-bottom: 20px; }
-.studio-page-header h1 { font-size: 25px; }
-.studio-header-actions { display: flex; align-items: center; gap: 9px; }
-.autosave-state { display: inline-flex; align-items: center; gap: 5px; margin-right: 4px; color: #74788c; font-size: 7px; }
-.autosave-state > span { width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
-.studio-layout { display: grid; grid-template-columns: minmax(0, 1fr) 230px 220px; gap: 14px; align-items: start; }
-.canvas-panel { min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 15px; background: #111322; }
-.canvas-toolbar { display: flex; align-items: center; justify-content: space-between; height: 49px; padding: 0 12px; border-bottom: 1px solid var(--line); }
-.canvas-toolbar-left { display: flex; align-items: center; gap: 3px; }
-.toolbar-divider { width: 1px; height: 19px; margin: 0 8px; background: var(--line); }
-.canvas-file-name { display: flex; align-items: center; gap: 6px; color: #8e91a6; font-size: 8px; }
-.canvas-file-name .icon { width: 13px; height: 13px; }
-.zoom-controls { display: flex; align-items: center; gap: 2px; }
-.zoom-value { min-width: 40px; padding: 4px; color: #9a9cb1; font-size: 8px; }
-.canvas-stage { position: relative; display: flex; align-items: center; justify-content: center; min-height: 450px; overflow: auto; padding: 28px; background: radial-gradient(circle at 50% 35%, #27263a, #1b1c2a 75%); }
-#artCanvas { position: relative; z-index: 1; display: block; width: 100%; max-width: 1000px; height: auto; aspect-ratio: 10 / 7; border-radius: 4px; background: #f8f5ef; box-shadow: 0 18px 45px rgba(0,0,0,.28); cursor: crosshair; touch-action: none; transform-origin: center; }
-.canvas-grid, .reference-guide, .symmetry-guide { position: absolute; z-index: 2; display: none; pointer-events: none; }
-.canvas-grid.show { display: block; }
-.reference-guide { z-index: 3; }
-.reference-guide.show { display: block; }
-.reference-guide svg { width: 100%; height: 100%; }
-.symmetry-guide { z-index: 4; border-left: 1px dashed rgba(139,108,255,.65); }
-.symmetry-guide.show { display: block; }
-.canvas-grid { opacity: .25; background-image: linear-gradient(rgba(139,108,255,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(139,108,255,.4) 1px, transparent 1px); background-size: 33.333% 33.333%; }
-.canvas-hint { position: absolute; z-index: 5; bottom: 13px; left: 50%; display: flex; align-items: center; gap: 7px; max-width: calc(100% - 26px); padding: 8px 10px; border: 1px solid rgba(255,255,255,.1); border-radius: 9px; color: #d0cedd; background: rgba(18,18,34,.86); box-shadow: 0 5px 18px rgba(0,0,0,.2); backdrop-filter: blur(10px); font-size: 7px; white-space: nowrap; transform: translateX(-50%); }
-.canvas-hint > .icon { width: 13px; height: 13px; color: #e9bd7d; }
-.canvas-hint kbd { padding: 2px 4px; font-size: 6px; }
-.canvas-hint button { display: grid; place-items: center; margin-left: 3px; padding: 0; color: #85879c; }
-.canvas-hint button .icon { width: 12px; height: 12px; }
-.canvas-statusbar { display: flex; align-items: center; justify-content: space-between; height: 35px; padding: 0 13px; border-top: 1px solid var(--line); color: #6e7288; font-size: 7px; }
-.canvas-statusbar > span { display: flex; align-items: center; gap: 6px; }
-.status-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
-.canvas-statusbar i { font-style: normal; color: #44475d; }
-.tool-panel, .lesson-guide-panel { border: 1px solid var(--line); border-radius: 15px; background: #121423; }
-.tool-panel { padding: 12px; }
-.tool-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; padding: 3px; border-radius: 8px; background: #0e101d; }
-.tool-tab { padding: 7px 2px; border-radius: 6px; color: #777a90; font-size: 7px; }
-.tool-tab.active { color: #d4c7ff; background: rgba(139,108,255,.15); }
-.tool-tab-content { display: none; padding-top: 15px; }
-.tool-tab-content.active { display: block; }
-.tool-section-label { margin-bottom: 10px; color: #696d84; font-size: 6.5px; font-weight: 700; letter-spacing: .9px; }
-.tool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
-.tool-button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 53px; padding: 4px; border: 1px solid transparent; border-radius: 8px; color: #85889e; background: rgba(255,255,255,.025); }
-.tool-button .icon { width: 17px; height: 17px; }
-.tool-button span { font-size: 5.8px; }
-.tool-button:hover { color: #d5cee9; background: rgba(255,255,255,.05); }
-.tool-button.active { color: #c5b3ff; border-color: rgba(139,108,255,.3); background: rgba(139,108,255,.14); }
-.tool-divider { height: 1px; margin: 15px 0; background: var(--line); }
-.range-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; color: #9395aa; font-size: 7px; }
-.range-heading span { color: #706f89; }
-.range-input { width: 100%; height: 3px; margin: 0 0 17px; appearance: none; border-radius: 10px; background: linear-gradient(90deg, #8d6bff, #34354b); outline: none; }
-.range-input::-webkit-slider-thumb { width: 11px; height: 11px; appearance: none; border: 2px solid #cbbcff; border-radius: 50%; background: #8b6cff; box-shadow: 0 0 0 3px rgba(139,108,255,.12); cursor: pointer; }
-.brush-preview { display: flex; align-items: center; justify-content: center; gap: 10px; height: 51px; border: 1px solid var(--line); border-radius: 9px; background: #f6f3ee; }
-.brush-preview > span { width: 12px; height: 12px; border-radius: 50%; background: #7c5cfc; transition: .15s; }
-.brush-preview small { color: #898499; font-size: 6px; }
-.palette-large { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-.palette-large button { aspect-ratio: 1; border: 2px solid transparent; border-radius: 9px; transition: .15s; }
-.palette-large button:hover { transform: translateY(-2px); }
-.palette-large button.active { border-color: #e9e3ff; box-shadow: 0 0 0 2px #8b6cff; }
-.color-picker-row { display: flex; align-items: center; gap: 8px; color: #777a91; font-size: 7px; }
-.color-picker-row input { width: 33px; height: 33px; padding: 2px; border: 1px solid var(--line-strong); border-radius: 8px; background: #1b1d30; cursor: pointer; }
-.smart-palette { width: 100%; padding: 10px; border: 1px solid var(--line); border-radius: 9px; text-align: left; }
-.smart-palette-colors { display: flex; overflow: hidden; height: 26px; border-radius: 6px; }
-.smart-palette-colors i { flex: 1; }
-.smart-palette > span:nth-child(2) { display: flex; align-items: center; gap: 5px; margin-top: 9px; color: #c7bedc; font-size: 7px; }
-.smart-palette .icon { width: 12px; height: 12px; color: #a68bea; }
-.smart-palette small { display: block; margin: 4px 0 0 17px; color: #6e7188; font-size: 6px; }
-.color-tip, .layer-help { display: flex; align-items: flex-start; gap: 7px; margin-top: 13px; padding: 10px; border-radius: 8px; color: #87899f; background: rgba(244,184,115,.05); }
-.color-tip .icon, .layer-help .icon { width: 13px; height: 13px; margin-top: 1px; color: #d6a96f; }
-.color-tip p, .layer-help p { font-size: 6.5px; line-height: 1.7; }
-.layers-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.layers-heading .tool-section-label { margin: 0; }
-.layers-list { display: flex; flex-direction: column; gap: 5px; }
-.layer-row { display: flex; align-items: center; gap: 7px; padding: 7px; border: 1px solid transparent; border-radius: 8px; background: rgba(255,255,255,.02); }
-.layer-row.active { border-color: rgba(139,108,255,.26); background: rgba(139,108,255,.1); }
-.layer-visibility { padding: 0; color: #8e91a7; }
-.layer-visibility .icon { width: 13px; height: 13px; }
-.layer-thumb { display: grid; place-items: center; width: 29px; height: 25px; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 5px; background: #f5f1ea; }
-.layer-thumb i { width: 16px; height: 9px; border-radius: 50%; background: #9a85df; }
-.layer-name { flex: 1; min-width: 0; overflow: hidden; color: #aaa8bb; font-size: 7px; text-overflow: ellipsis; white-space: nowrap; }
-.layer-lock { color: #55586e; }
-.layer-lock .icon { width: 11px; height: 11px; }
-.assist-toggles { display: flex; flex-direction: column; gap: 10px; }
-.toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; }
-.toggle-row > span { display: flex; align-items: center; gap: 7px; color: #989aaf; font-size: 7.5px; }
-.toggle-row > span .icon { width: 13px; height: 13px; color: #777b92; }
-.toggle-row input { position: absolute; opacity: 0; pointer-events: none; }
-.toggle-row > i { position: relative; flex: 0 0 auto; width: 27px; height: 15px; border: 1px solid #35374b; border-radius: 20px; background: #242639; transition: .2s; }
-.toggle-row > i::after { content: ''; position: absolute; top: 2px; left: 2px; width: 9px; height: 9px; border-radius: 50%; background: #777a90; transition: .2s; }
-.toggle-row input:checked + i { border-color: #7e60df; background: #7455d3; }
-.toggle-row input:checked + i::after { left: 14px; background: #eee7ff; }
-.lesson-guide-panel { padding: 17px 15px; }
-.guide-ai { display: flex; align-items: center; gap: 5px; color: #9580d4; font-size: 6px; font-weight: 700; letter-spacing: .7px; }
-.guide-ai .icon { width: 12px; height: 12px; }
-.lesson-guide-panel h3 { margin-top: 12px; font-size: 15px; font-weight: 600; }
-.guide-intro { margin-top: 8px; color: #808297; font-size: 7.5px; line-height: 1.8; }
-.guide-steps { display: flex; flex-direction: column; gap: 4px; margin-top: 17px; }
-.guide-step { display: flex; align-items: flex-start; gap: 9px; width: 100%; padding: 10px 7px; border: 1px solid transparent; border-radius: 9px; text-align: left; }
-.guide-step:hover { background: rgba(255,255,255,.025); }
-.guide-step > span { display: grid; place-items: center; flex: 0 0 auto; width: 21px; height: 21px; border: 1px solid #34364b; border-radius: 50%; color: #74778d; font-size: 8px; }
-.guide-step > span .icon { width: 11px; height: 11px; }
-.guide-step strong { display: block; color: #a7a7ba; font-size: 8px; font-weight: 500; }
-.guide-step small { display: block; margin-top: 4px; color: #6e7288; font-size: 6.5px; line-height: 1.5; }
-.guide-step.active { border-color: rgba(139,108,255,.18); background: rgba(139,108,255,.07); }
-.guide-step.active > span { color: #d8ccff; border-color: #8262e6; background: #8060df; box-shadow: 0 0 12px rgba(139,108,255,.2); }
-.guide-step.active strong { color: #d6c9fa; }
-.guide-step.done > span { color: #9acdb5; border-color: rgba(121,201,166,.2); background: rgba(121,201,166,.08); }
-.nova-tip { display: flex; align-items: flex-start; gap: 8px; margin-top: 18px; padding: 11px; border: 1px solid rgba(139,108,255,.12); border-radius: 10px; background: rgba(139,108,255,.06); }
-.mini-nova { display: grid; place-items: center; flex: 0 0 auto; width: 25px; height: 25px; border-radius: 8px; color: #bba6ff; background: rgba(139,108,255,.14); }
-.mini-nova .icon { width: 13px; height: 13px; }
-.nova-tip strong { color: #bdb0e0; font-size: 7px; }
-.nova-tip p { margin-top: 5px; color: #88829e; font-size: 6.5px; line-height: 1.7; }
-.guide-help { margin-top: 13px; font-size: 7px; }
-
-.gallery-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
-.gallery-count { color: #74778d; font-size: 8px; }
-.gallery-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-.art-card { overflow: hidden; border: 1px solid var(--line); border-radius: 15px; background: #121423; transition: .2s; }
-.art-card:hover { transform: translateY(-3px); border-color: rgba(139,108,255,.25); box-shadow: var(--shadow); }
-.art-image { position: relative; display: grid; place-items: center; aspect-ratio: 1.35; overflow: hidden; }
-.art-image svg { width: 100%; height: 100%; }
-.art-nebula { background: radial-gradient(circle at 68% 30%, #503b81, transparent 36%), linear-gradient(145deg, #10152d, #352458 58%, #172a3e); }
-.art-planet { position: absolute; width: 32%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 30% 25%, #e3d6ff, #9778e7 45%, #4b347e); box-shadow: 0 0 35px rgba(139,108,255,.25); }
-.art-ring { position: absolute; width: 48%; height: 13%; border: 3px solid #98deeb; border-radius: 50%; transform: rotate(-22deg); opacity: .7; }
-.art-image > i { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #fff; box-shadow: 0 0 7px #fff; }
-.uploaded-art img { width: 100%; height: 100%; object-fit: cover; }
-.art-image > i:nth-last-child(3) { top: 18%; left: 18%; }
-.art-image > i:nth-last-child(2) { top: 25%; right: 16%; width: 2px; height: 2px; }
-.art-image > i:nth-last-child(1) { right: 29%; bottom: 18%; }
-.art-botanical { background: #e8e4d8; }
-.art-botanical svg { position: absolute; bottom: 14%; width: 68%; height: 75%; }
-.pot { position: absolute; bottom: 10%; width: 28%; height: 30%; border-radius: 5px 5px 45% 45%; background: linear-gradient(90deg, #b67f69, #d6a38b); }
-.art-moon { background: linear-gradient(145deg, #1e2541, #4a4d79 60%, #29213f); }
-.art-moon > span { width: 34%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 28%, #fff2d5, #d9bd94 55%, #8e7394); box-shadow: 0 0 35px rgba(255,221,173,.15); }
-.art-still-life svg, .art-mountains svg, .art-rocket svg { object-fit: cover; }
-.art-rocket { background: linear-gradient(150deg, #161b35, #2d2850); }
-.art-info { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 13px 14px; }
-.art-info strong { display: block; font-family: var(--display); font-size: 11px; font-weight: 600; }
-.art-info small { display: block; margin-top: 5px; color: #72758c; font-size: 7px; }
-.favorite { width: 29px; height: 29px; }
-.favorite .icon { width: 14px; height: 14px; }
-.favorite.active { color: #e9b86e; }
-.favorite.active .icon { fill: rgba(233,184,110,.18); }
-
-.level-badge { color: #bba8f7; background: rgba(139,108,255,.1); font-size: 8px; }
-.level-badge .icon { width: 13px; height: 13px; }
-.progress-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 13px; }
-.progress-stat { display: flex; align-items: center; gap: 13px; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: #121423; }
-.progress-stat small { display: block; margin-bottom: 7px; color: #73768c; font-size: 6.5px; letter-spacing: .6px; }
-.progress-stat strong { font-family: var(--display); font-size: 22px; font-weight: 700; }
-.progress-stat strong span { color: #8f91a6; font-family: var(--font); font-size: 9px; font-weight: 400; }
-.progress-stat em { display: block; margin-top: 5px; color: #6f8f80; font-size: 6.5px; font-style: normal; }
-.progress-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; margin-top: 20px; }
-.chart-card, .skill-card { padding: 20px; }
-.chart-legend { display: flex; align-items: center; gap: 5px; color: #777a90; font-size: 7px; }
-.chart-legend i { width: 6px; height: 6px; border-radius: 2px; background: #8b6cff; }
-.bar-chart { display: flex; align-items: flex-end; justify-content: space-around; height: 180px; margin-top: 20px; padding: 0 10px 10px; border-bottom: 1px solid var(--line); background-image: linear-gradient(var(--line) 1px, transparent 1px); background-size: 100% 25%; }
-.bar-chart > div { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 8px; width: 10%; height: 100%; }
-.bar-chart span { width: 100%; max-width: 28px; min-height: 8px; border-radius: 6px 6px 2px 2px; background: linear-gradient(180deg, #a488ff, #6044b8); }
-.bar-chart small { color: #6f7288; font-size: 7px; }
-.bar-chart .today span { background: linear-gradient(180deg, #82e0ef, #438aab); box-shadow: 0 0 18px rgba(125,228,244,.1); }
-.bar-chart .today small { color: #9adbe8; }
-.skill-list { display: flex; flex-direction: column; gap: 19px; margin-top: 24px; }
-.skill-list > div { display: grid; grid-template-columns: 62px 1fr 30px; align-items: center; gap: 9px; }
-.skill-list span { color: #989aae; font-size: 8px; }
-.skill-list strong { color: #8b7aae; font-size: 7px; text-align: right; }
-.skill-track { height: 5px; overflow: hidden; border-radius: 10px; background: #25273a; }
-.skill-track i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #7554d7, #ad93ff); }
-.achievement-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 13px; }
-.achievement { display: flex; flex-direction: column; align-items: center; padding: 20px 12px; border: 1px solid var(--line); border-radius: 14px; background: #121423; text-align: center; }
-.achievement > span { display: grid; place-items: center; width: 50px; height: 50px; margin-bottom: 12px; border-radius: 16px; }
-.achievement > span .icon { width: 24px; height: 24px; }
-.achievement.unlocked > span { color: #e6bc7b; background: linear-gradient(135deg, rgba(244,184,115,.15), rgba(139,108,255,.12)); box-shadow: inset 0 0 15px rgba(255,255,255,.03); }
-.achievement.locked > span { color: #55586e; background: #1b1d2c; }
-.achievement strong { font-family: var(--display); font-size: 10px; font-weight: 600; }
-.achievement small { margin-top: 5px; color: #6f7288; font-size: 7px; }
-.achievement.locked strong { color: #73768a; }
-
-.classroom-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: 18px; }
-.assignments-card, .teacher-card, .classmates-card, .rubric-card { padding: 21px; }
-.assignment-row { display: flex; align-items: center; gap: 12px; width: 100%; margin-top: 12px; padding: 13px; border: 1px solid var(--line); border-radius: 11px; background: rgba(255,255,255,.018); text-align: left; transition: .18s; }
-.assignment-row:hover { border-color: rgba(139,108,255,.25); background: rgba(139,108,255,.04); }
-.assignment-icon { display: grid; place-items: center; flex: 0 0 auto; width: 39px; height: 39px; border-radius: 11px; }
-.assignment-icon.purple { color: #b6a0ff; background: rgba(139,108,255,.12); }
-.assignment-icon.orange { color: #e9b678; background: rgba(244,184,115,.1); }
-.assignment-row > span:nth-child(2) { flex: 1; }
-.assignment-row strong { display: block; font-size: 9px; font-weight: 600; }
-.assignment-row small { display: block; margin-top: 5px; color: #73768c; font-size: 7px; }
-.assignment-status { padding: 5px 7px; border-radius: 5px; color: #b6a2f4; background: rgba(139,108,255,.09); font-size: 6px; white-space: nowrap; }
-.assignment-status.new { color: #83c8a8; background: rgba(121,201,166,.08); }
-.assignment-row > .icon { width: 13px; height: 13px; color: #5f6278; }
-.teacher-label { color: #8070ad; font-size: 6.5px; font-weight: 700; letter-spacing: .9px; }
-.teacher-profile { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
-.teacher-avatar { width: 45px; height: 45px; background: linear-gradient(135deg, #e2b4a6, #8c688d); font-size: 12px; }
-.teacher-profile h3 { font-size: 13px; font-weight: 600; }
-.teacher-profile p { margin-top: 4px; color: #7b7e93; font-size: 7px; }
-.teacher-note { display: flex; align-items: flex-start; gap: 9px; margin: 18px 0; padding: 13px; border: 1px solid rgba(244,184,115,.08); border-radius: 10px; background: rgba(244,184,115,.04); }
-.teacher-note .icon { width: 16px; height: 16px; color: #c79d66; }
-.teacher-note p { color: #99919a; font-size: 7.5px; font-style: italic; line-height: 1.8; }
-.class-progress-ring { display: grid; place-items: center; width: 128px; height: 128px; margin: 20px auto 15px; border-radius: 50%; background: conic-gradient(#8b6cff calc(var(--progress)), #25273a 0); }
-.class-progress-ring::before { content: ''; grid-area: 1 / 1; width: 104px; height: 104px; border-radius: 50%; background: #121423; }
-.class-progress-ring > span { position: relative; display: flex; flex-direction: column; align-items: center; grid-area: 1 / 1; }
-.class-progress-ring strong { font-family: var(--display); font-size: 25px; }
-.class-progress-ring small { margin-top: 4px; color: #777a90; font-size: 7px; }
-.classmates-card > p { max-width: 310px; margin: 0 auto; color: #7f8197; font-size: 8px; line-height: 1.8; text-align: center; }
-.class-member-row { display: flex; justify-content: center; margin-top: 16px; }
-.class-member-row .avatar { width: 29px; height: 29px; }
-.rubric-list { margin-top: 16px; }
-.rubric-list > div { display: flex; align-items: center; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid var(--line); color: #9496aa; font-size: 8px; }
-.rubric-list > div:last-child { border: 0; }
-.rubric-list strong { color: #a994e6; font-size: 8px; }
-
-.assistant-launcher { position: fixed; right: 24px; bottom: 22px; z-index: 70; display: flex; align-items: center; gap: 8px; height: 48px; padding: 0 15px 0 7px; border: 1px solid rgba(166,142,250,.35); border-radius: 30px; color: #e0d7ff; background: linear-gradient(135deg, #342453, #1b1832); box-shadow: 0 8px 30px rgba(0,0,0,.35), 0 0 22px rgba(139,108,255,.12); font-size: 9px; font-weight: 600; transition: .2s; }
-.assistant-launcher:hover { transform: translateY(-2px); border-color: rgba(183,160,255,.6); }
-.launcher-orb { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; color: #eee7ff; background: linear-gradient(135deg, #a084f6, #6642c4); box-shadow: inset 0 0 10px rgba(255,255,255,.12); }
-.launcher-orb .icon { width: 17px; height: 17px; }
-.assistant-launcher > i { width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
-.assistant-panel { position: fixed; right: 24px; bottom: 82px; z-index: 75; display: flex; flex-direction: column; width: 370px; height: min(570px, calc(100vh - 110px)); overflow: hidden; border: 1px solid rgba(166,142,250,.22); border-radius: 18px; background: #141527; box-shadow: 0 25px 80px rgba(0,0,0,.55); opacity: 0; pointer-events: none; transform: translateY(15px) scale(.98); transform-origin: bottom right; transition: .22s ease; }
-.assistant-panel.show { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
-.assistant-header { display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid var(--line); background: linear-gradient(135deg, rgba(139,108,255,.08), transparent); }
-.assistant-identity { display: flex; align-items: center; gap: 10px; }
-.assistant-identity strong { font-family: var(--display); font-size: 12px; }
-.assistant-identity small { display: flex; align-items: center; gap: 5px; margin-top: 3px; color: #85879d; font-size: 7px; }
-.assistant-identity small span { width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
-.assistant-messages { flex: 1; overflow-y: auto; padding: 16px; }
-.message { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 14px; }
-.message-avatar { display: grid; place-items: center; flex: 0 0 auto; width: 27px; height: 27px; border-radius: 8px; color: #c5b3ff; background: rgba(139,108,255,.14); }
-.message-avatar .icon { width: 14px; height: 14px; }
-.message > div { max-width: calc(100% - 35px); }
-.message p { padding: 10px 11px; border: 1px solid var(--line); border-radius: 4px 11px 11px 11px; color: #b8b7c9; background: rgba(255,255,255,.025); font-size: 8px; line-height: 1.8; }
-.message p + p { margin-top: 5px; }
-.message-suggestions { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
-.message-suggestions button { padding: 6px 8px; border: 1px solid rgba(139,108,255,.2); border-radius: 7px; color: #bca9f1; background: rgba(139,108,255,.07); font-size: 7px; }
-.user-message { justify-content: flex-end; }
-.user-message > div { padding: 10px 12px; border-radius: 11px 4px 11px 11px; color: #e8e2f8; background: linear-gradient(135deg, #7654d7, #5f40b6); font-size: 8px; line-height: 1.7; }
-.assistant-input { display: flex; gap: 7px; margin: 10px 13px 5px; padding: 5px; border: 1px solid var(--line-strong); border-radius: 11px; background: #0f111f; }
-.assistant-input input { flex: 1; min-width: 0; padding: 0 7px; border: 0; outline: 0; color: #e4e0f0; background: transparent; font-size: 8px; }
-.assistant-input input::placeholder { color: #66697f; }
-.assistant-input button { display: grid; place-items: center; width: 31px; height: 31px; border-radius: 8px; color: #fff; background: #7e5ce2; }
-.assistant-input button .icon { width: 14px; height: 14px; }
-.assistant-disclaimer { padding: 3px 16px 10px; color: #5f6278; font-size: 6px; text-align: center; }
-
-.modal-backdrop { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(4,5,12,.75); backdrop-filter: blur(9px); }
-.modal-backdrop.show { display: flex; animation: fadeIn .2s ease; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-.modal { position: relative; width: min(680px, 100%); overflow: hidden; border: 1px solid var(--line-strong); border-radius: 21px; background: #141627; box-shadow: 0 30px 100px rgba(0,0,0,.5); }
-.modal-close { position: absolute; top: 13px; right: 13px; z-index: 3; color: #b7b4c9; background: rgba(10,11,23,.35); backdrop-filter: blur(5px); }
-.lesson-modal { display: grid; grid-template-columns: 42% 58%; }
-.modal-art { position: relative; display: grid; place-items: center; min-height: 440px; overflow: hidden; background: radial-gradient(circle at 45% 35%, #342755, #17172b 75%); }
-.modal-planet { width: 145px; height: 145px; border-radius: 50%; background: radial-gradient(circle at 30% 25%, #d8ccff, #8b6cdd 48%, #472f7c); box-shadow: 0 0 45px rgba(139,108,255,.2); }
-.modal-orbit { position: absolute; width: 250px; height: 65px; border: 2px solid #8ad9e8; border-radius: 50%; transform: rotate(-23deg); opacity: .7; }
-.modal-art > .icon { position: absolute; top: 24%; right: 18%; width: 34px; height: 34px; color: #f4ddae; filter: drop-shadow(0 0 9px rgba(255,255,255,.3)); }
-.modal-content { padding: 35px 30px 25px; }
-.modal-content h2 { margin-top: 12px; font-size: 25px; font-weight: 700; letter-spacing: -.8px; }
-.modal-content > p { margin-top: 10px; color: #8f91a7; font-size: 9px; line-height: 1.8; }
-.modal-lesson-meta { display: flex; gap: 14px; margin-top: 16px; padding-bottom: 17px; border-bottom: 1px solid var(--line); color: #8a8da2; font-size: 8px; }
-.modal-lesson-meta span { display: inline-flex; align-items: center; gap: 5px; }
-.modal-lesson-meta .icon { width: 13px; height: 13px; color: #9680d7; }
-.lesson-outcomes { display: flex; flex-direction: column; gap: 9px; margin: 18px 0 22px; }
-.lesson-outcomes strong { margin-bottom: 3px; color: #d1cedf; font-size: 9px; }
-.lesson-outcomes span { display: flex; align-items: center; gap: 7px; color: #9294a9; font-size: 8px; }
-.lesson-outcomes .icon { width: 13px; height: 13px; color: #84c5a6; }
-.modal-content .modal-footnote { margin-top: 11px; color: #616579; font-size: 7px; text-align: center; }
-.settings-modal { width: min(410px, 100%); padding: 28px; }
-.settings-icon { display: grid; place-items: center; width: 47px; height: 47px; margin-bottom: 17px; border-radius: 14px; color: #b9a3ff; background: rgba(139,108,255,.12); }
-.settings-icon .icon { width: 23px; height: 23px; }
-.settings-modal h2 { font-size: 20px; }
-.settings-modal > p { margin: 9px 0 22px; color: #86899f; font-size: 9px; line-height: 1.7; }
-.settings-modal .toggle-row { padding: 13px 0; border-bottom: 1px solid var(--line); }
-.settings-modal .toggle-row > span { font-size: 9px; }
-.settings-modal .button { margin-top: 22px; }
-.toast-container { position: fixed; top: 86px; right: 24px; z-index: 120; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
-.toast { display: flex; align-items: center; gap: 9px; max-width: 340px; padding: 12px 15px; border: 1px solid var(--line-strong); border-radius: 11px; color: #ddd9e9; background: rgba(24,26,43,.95); box-shadow: var(--shadow); backdrop-filter: blur(12px); font-size: 8px; line-height: 1.6; animation: toastIn .25s ease; }
-.toast .icon { width: 15px; height: 15px; color: #a88bf4; }
-.toast.success .icon { color: var(--green); }
-.toast.removing { opacity: 0; transform: translateX(15px); transition: .2s; }
-@keyframes toastIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
-
-.reduce-motion *, .reduce-motion *::before, .reduce-motion *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
-
-@media (min-width: 1550px) {
-  .dashboard-grid { grid-template-columns: minmax(0, 1fr) 330px; gap: 26px; }
-  .hero-card { min-height: 360px; padding-top: 39px; }
-  .hero-copy h2 { font-size: 47px; }
-  .hero-art { height: 310px; }
-  .metric-card { min-height: 94px; }
-  .planet-card { min-height: 230px; }
-  .studio-layout { grid-template-columns: minmax(0, 1fr) 255px 245px; }
-  .canvas-stage { min-height: 530px; }
-}
-
-@media (max-width: 1260px) {
-  .main-content { padding: 26px 24px 90px; }
-  .topbar { padding: 0 24px; }
-  .dashboard-grid { grid-template-columns: minmax(0, 1fr) 275px; gap: 17px; }
-  .hero-card { padding: 29px 25px 0; }
-  .hero-copy h2 { font-size: 35px; }
-  .hero-art { right: -40px; width: 51%; }
-  .metric-card { gap: 8px; padding: 12px 10px; }
-  .metric-icon { width: 34px; height: 34px; }
-  .metric-card small { font-size: 5.8px; }
-  .metric-trend, .metric-note, .metric-link { display: none; }
-  .planet-card { padding: 12px; }
-  .planet-visual { height: 83px; }
-  .planet-sphere { width: 55px; height: 55px; }
-  .planet-orbit { width: 91px; height: 27px; }
-  .continue-lesson-card { gap: 14px; }
-  .lesson-art { flex-basis: 36%; }
-  .studio-layout { grid-template-columns: minmax(0, 1fr) 230px; }
-  .lesson-guide-panel { display: none; }
-  .learning-module { grid-template-columns: 135px minmax(0, 1fr); }
-  .module-visual { min-height: 220px; }
-  .module-body { padding: 16px; }
-  .progress-stat { padding: 14px; gap: 9px; }
-  .progress-stat strong { font-size: 19px; }
-}
-
-@media (max-width: 1080px) {
-  .dashboard-grid { grid-template-columns: 1fr; }
-  .dashboard-aside { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; }
-  .nova-card { grid-row: span 2; }
-  .hero-card { min-height: 340px; }
-  .hero-art { right: 0; width: 46%; }
-  .planet-card { min-height: 225px; }
-  .learning-path { grid-template-columns: 1fr; }
-  .learning-module { grid-template-columns: 180px minmax(0, 1fr); }
-  .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .progress-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .classroom-grid { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 900px) {
-  .app-shell { grid-template-columns: 1fr; }
-  .sidebar { position: fixed; left: 0; width: 244px; transform: translateX(-100%); transition: transform .25s ease; box-shadow: 20px 0 60px rgba(0,0,0,.35); }
-  .sidebar.show { transform: translateX(0); }
-  .sidebar-backdrop { position: fixed; inset: 0; z-index: 35; background: rgba(0,0,0,.55); backdrop-filter: blur(3px); }
-  .sidebar-backdrop.show { display: block; }
-  .mobile-menu { display: inline-grid; margin-right: 9px; }
-  .topbar { height: 64px; }
-  .topbar .breadcrumb { margin-right: auto; }
-  .global-search { width: 230px; }
-  .dashboard-aside { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .nova-card { grid-row: span 2; }
-  .weekly-card { grid-column: 2; }
-  .studio-page-header { align-items: flex-start; }
-  .autosave-state { display: none; }
-  .studio-layout { grid-template-columns: 1fr; }
-  .tool-panel { display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; }
-  .tool-tabs { grid-column: 1 / -1; }
-  .tool-tab-content { padding-top: 0; }
-  .tool-panel > .tool-divider { display: none; }
-  .tool-panel > .tool-section-label, .tool-panel > .assist-toggles { grid-column: 2; }
-  .canvas-stage { min-height: 400px; }
-  .progress-grid { grid-template-columns: 1fr; }
-  .achievement-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-@media (max-width: 680px) {
-  body { font-size: 12px; }
-  .topbar { padding: 0 14px; }
-  .breadcrumb-root, .breadcrumb > .icon { display: none; }
-  .breadcrumb strong { font-size: 10px; }
-  .topbar-actions { gap: 4px; }
-  .global-search { width: 38px; padding: 0; border: 0; background: transparent; }
-  .global-search > .icon { margin: auto; }
-  .global-search input, .global-search kbd { display: none; }
-  .global-search:focus-within { position: absolute; right: 14px; left: 14px; z-index: 5; width: auto; padding: 0 11px; border: 1px solid rgba(139,108,255,.5); background: #16182a; }
-  .global-search:focus-within input { display: block; }
-  .global-search:focus-within kbd { display: block; }
-  .search-results { width: 100%; }
-  .topbar-avatar { display: none; }
-  .main-content { padding: 22px 15px 100px; }
-  .welcome-row { align-items: flex-start; flex-direction: column; gap: 17px; }
-  .welcome-row h1, .page-header h1 { font-size: 26px; }
-  .welcome-actions { width: 100%; }
-  .welcome-actions .button { flex: 1; }
-  .hero-card { min-height: 390px; padding: 25px 21px 0; }
-  .hero-copy { max-width: 85%; }
-  .hero-copy h2 { font-size: 34px; }
-  .hero-copy > p { max-width: 250px; }
-  .hero-art { top: 65px; right: -75px; width: 80%; height: 255px; opacity: .45; }
-  .hero-footer { flex-direction: column; align-items: stretch; justify-content: center; gap: 12px; min-height: 93px; padding: 12px 20px; }
-  .hero-progress { width: 100%; }
-  .metric-grid { grid-template-columns: 1fr; gap: 8px; }
-  .metric-card { min-height: 70px; padding: 12px 14px; }
-  .metric-card small { font-size: 6px; }
-  .metric-trend, .metric-note, .metric-link { display: flex; }
-  .section-heading h2 { font-size: 15px; }
-  .section-heading p { font-size: 8px; }
-  .planet-grid { grid-template-columns: 1fr; }
-  .planet-card { display: grid; grid-template-columns: 100px 1fr; grid-template-rows: auto auto 1fr; min-height: 130px; column-gap: 12px; }
-  .planet-state { grid-column: 1 / -1; }
-  .planet-visual { grid-column: 1; grid-row: 2 / 4; height: 85px; }
-  .planet-copy { grid-column: 2; grid-row: 2; align-self: end; }
-  .planet-progress { grid-column: 2; grid-row: 3; align-self: start; }
-  .continue-lesson-card { flex-direction: column; gap: 14px; }
-  .lesson-art { flex-basis: auto; width: 100%; max-width: none; height: 180px; }
-  .continue-copy { padding: 0 6px 9px; }
-  .continue-arrow { top: auto; bottom: 21px; }
-  .dashboard-aside { display: flex; }
-  .nova-card, .daily-challenge, .weekly-card { width: 100%; }
-  .page-header, .studio-page-header { align-items: flex-start; flex-direction: column; gap: 16px; }
-  .page-header > .button, .studio-header-actions { width: 100%; }
-  .studio-header-actions .button { flex: 1; }
-  .learning-summary { width: 100%; }
-  .learning-module { grid-template-columns: 110px minmax(0, 1fr); }
-  .module-visual { min-height: 225px; }
-  .module-planet { width: 60px; height: 60px; }
-  .module-orbit { width: 100px; height: 30px; }
-  .module-body { padding: 14px; }
-  .module-body h2 { font-size: 15px; }
-  .module-body .button { padding: 0 10px; }
-  .gallery-toolbar { align-items: flex-start; flex-direction: column; gap: 11px; }
-  .gallery-grid { grid-template-columns: 1fr; }
-  .studio-page-header h1 { font-size: 23px; }
-  .canvas-stage { min-height: 280px; padding: 16px; }
-  .canvas-hint { display: none; }
-  .canvas-toolbar { padding: 0 7px; }
-  .canvas-file-name { display: none; }
-  .tool-panel { display: block; }
-  .tool-tabs { margin-bottom: 16px; }
-  .tool-tab-content { padding-top: 0; }
-  .tool-panel > .tool-divider { display: block; }
-  .tool-grid { grid-template-columns: repeat(4, 1fr); }
-  .progress-metrics { grid-template-columns: 1fr; }
-  .progress-stat { padding: 16px; }
-  .achievement-grid { grid-template-columns: 1fr 1fr; }
-  .classroom-grid { grid-template-columns: 1fr; }
-  .assignment-status { display: none; }
-  .assistant-launcher { right: 15px; bottom: 16px; }
-  .assistant-panel { right: 10px; bottom: 75px; width: calc(100% - 20px); height: min(570px, calc(100vh - 95px)); }
-  .lesson-modal { grid-template-columns: 1fr; max-height: calc(100vh - 30px); overflow-y: auto; }
-  .modal-art { min-height: 145px; }
-  .modal-planet { width: 85px; height: 85px; }
-  .modal-orbit { width: 165px; height: 42px; }
-  .modal-art > .icon { width: 23px; height: 23px; }
-  .modal-content { padding: 24px 21px; }
-  .modal-content h2 { font-size: 22px; }
-  .toast-container { top: 74px; right: 12px; left: 12px; }
-  .toast { max-width: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
-}
-
-</style>
+  <meta name="theme-color" content="#090b16">
+  <meta name="description" content="ArtCanva là không gian học vẽ dành cho người mới, với lộ trình từng bước, công cụ canvas và trợ lý gợi ý Nova.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23121426'/%3E%3Ccircle cx='32' cy='32' r='13' fill='%238b6cff'/%3E%3Cellipse cx='32' cy='32' rx='25' ry='10' fill='none' stroke='%237de4f4' stroke-width='3' transform='rotate(-30 32 32)'/%3E%3Ccircle cx='52' cy='15' r='4' fill='%23f4b873'/%3E%3C/svg%3E">
+  <title>ArtCanva · Học vẽ từ những nét đầu tiên</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <a class="skip-link" href="#mainContent">Bỏ qua điều hướng, đến nội dung chính</a>
+  <noscript><div class="noscript-message">ArtCanva cần JavaScript để chạy công cụ vẽ và lưu tiến độ. Hãy bật JavaScript rồi tải lại trang.</div></noscript>
   <svg class="icon-sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z"/></symbol>
@@ -877,7 +81,7 @@ kbd { padding: 3px 5px; border: 1px solid var(--line-strong); border-radius: 5px
         <p class="nav-label">KHÔNG GIAN CỦA BẠN</p>
         <nav class="main-nav" aria-label="Điều hướng chính">
           <button class="nav-item active" data-view="dashboard"><svg class="icon"><use href="#i-home"/></svg><span>Trang tổng quan</span></button>
-          <button class="nav-item" data-view="learning"><svg class="icon"><use href="#i-book"/></svg><span>Lộ trình học</span><span class="nav-badge">4</span></button>
+          <button class="nav-item" data-view="learning"><svg class="icon"><use href="#i-book"/></svg><span>Lộ trình học</span><span class="nav-badge" id="lessonNavCount">0/4</span></button>
           <button class="nav-item" data-view="studio"><svg class="icon"><use href="#i-pen"/></svg><span>Không gian vẽ</span></button>
           <button class="nav-item" data-view="gallery"><svg class="icon"><use href="#i-image"/></svg><span>Bộ sưu tập</span></button>
           <button class="nav-item" data-view="progress"><svg class="icon"><use href="#i-chart"/></svg><span>Tiến độ của tôi</span></button>
@@ -890,16 +94,16 @@ kbd { padding: 3px 5px; border: 1px solid var(--line-strong); border-radius: 5px
         </nav>
 
         <div class="class-mini-card">
-          <div class="class-mini-top"><span class="class-icon"><svg class="icon"><use href="#i-users"/></svg></span><span><small>LỚP ĐANG HỌC</small><strong>Mỹ thuật 01</strong></span><button class="icon-button tiny" data-view="classroom" aria-label="Mở lớp học"><svg class="icon"><use href="#i-chevron-right"/></svg></button></div>
-          <div class="class-members"><span class="avatar avatar-a">MA</span><span class="avatar avatar-b">KH</span><span class="avatar avatar-c">LN</span><span class="avatar avatar-more">+18</span><small>21 học viên</small></div>
+          <div class="class-mini-top"><span class="class-icon"><svg class="icon"><use href="#i-users"/></svg></span><span><small>KHÔNG GIAN MẪU</small><strong>Lớp Mỹ thuật 01</strong></span><button class="icon-button tiny" data-view="classroom" aria-label="Mở lớp học mẫu"><svg class="icon"><use href="#i-chevron-right"/></svg></button></div>
+          <div class="class-members"><span class="avatar avatar-a">MA</span><span class="avatar avatar-b">KH</span><span class="avatar avatar-c">LN</span><span class="avatar avatar-more">+18</span><small>Dữ liệu minh họa</small></div>
         </div>
       </div>
 
       <div class="sidebar-bottom">
         <button class="nav-item" data-action="open-settings"><svg class="icon"><use href="#i-settings"/></svg><span>Cài đặt</span></button>
         <button class="profile-card" data-action="open-profile">
-          <span class="avatar avatar-profile">MA<span class="profile-status"></span></span>
-          <span class="profile-info"><strong>Minh Anh</strong><small>Nhà khám phá cấp 3</small></span>
+          <span class="avatar avatar-profile" id="profileAvatar">AR<span class="profile-status"></span></span>
+          <span class="profile-info"><strong id="profileName">Người bạn mới</strong><small id="profileLevel">Nhà khám phá cấp 1</small></span>
           <svg class="icon"><use href="#i-more"/></svg>
         </button>
       </div>
@@ -916,8 +120,9 @@ kbd { padding: 3px 5px; border: 1px solid var(--line-strong); border-radius: 5px
             <kbd>⌘ K</kbd>
             <div class="search-results" id="searchResults"></div>
           </div>
+          <button class="button button-secondary share-button" data-action="share-site"><svg class="icon"><use href="#i-arrow"/></svg>Chia sẻ</button>
           <button class="icon-button notification-button" data-action="notifications" aria-label="Thông báo"><svg class="icon"><use href="#i-bell"/></svg><span></span></button>
-          <button class="topbar-avatar avatar avatar-profile" data-action="open-profile" aria-label="Hồ sơ cá nhân">MA</button>
+          <button class="topbar-avatar avatar avatar-profile" id="topbarAvatar" data-action="open-profile" aria-label="Hồ sơ cá nhân">AR</button>
         </div>
       </header>
 
@@ -925,9 +130,9 @@ kbd { padding: 3px 5px; border: 1px solid var(--line-strong); border-radius: 5px
         <section class="view active" id="view-dashboard" data-title="Trang tổng quan">
           <div class="welcome-row">
             <div>
-              <p class="eyebrow">THỨ NĂM, 26 THÁNG 11</p>
-              <h1>Chào Minh Anh <span class="wave-orbit">✦</span></h1>
-              <p class="page-description">Hôm nay là một ngày đẹp để tạo nên điều gì đó mới.</p>
+              <p class="eyebrow" id="todayLabel">HÀNH TRÌNH CỦA BẠN</p>
+              <h1>Chào <span id="welcomeName">người bạn mới</span> <span class="wave-orbit">✦</span></h1>
+              <p class="page-description">Chưa biết vẽ? Rất tốt. ArtCanva sẽ đồng hành cùng bạn từ nét đầu tiên.</p>
             </div>
             <div class="welcome-actions">
               <button class="button button-secondary" data-view="studio"><svg class="icon"><use href="#i-pen"/></svg>Vẽ tự do</button>
@@ -942,10 +147,10 @@ kbd { padding: 3px 5px; border: 1px solid var(--line-strong); border-radius: 5px
                 <div class="hero-glow hero-glow-two"></div>
                 <div class="hero-stars"></div>
                 <div class="hero-copy">
-                  <span class="pill pill-purple"><span class="pill-dot"></span>HÀNH TRÌNH CỦA BẠN</span>
-                  <h2>Vẽ nên những<br><span>thế giới mới.</span></h2>
-                  <p>Mỗi nét vẽ là một vì sao. Bắt đầu hành trình khám phá nghệ thuật theo cách của riêng bạn.</p>
-                  <button class="button button-light" data-lesson="basics">Khám phá hành tinh đầu tiên<svg class="icon"><use href="#i-arrow"/></svg></button>
+                  <span class="pill pill-purple"><span class="pill-dot"></span>DÀNH CHO NGƯỜI MỚI</span>
+                  <h2>Một nét vẽ.<br><span>Một vũ trụ mới.</span></h2>
+                  <p>Không cần kinh nghiệm. Hãy chọn bài học đầu tiên, làm theo từng bước và tự do sáng tạo.</p>
+                  <button class="button button-light" data-lesson="basics">Bắt đầu nét vẽ đầu tiên<svg class="icon"><use href="#i-arrow"/></svg></button>
                 </div>
                 <div class="hero-art" aria-hidden="true">
                   <svg viewBox="0 0 430 320" fill="none">
@@ -980,37 +185,37 @@ kbd { padding: 3px 5px; border: 1px solid var(--line-strong); border-radius: 5px
                   </svg>
                 </div>
                 <div class="hero-footer">
-                  <div class="hero-level"><span class="level-icon"><svg class="icon"><use href="#i-orbit"/></svg></span><span><small>HÀNH TINH HIỆN TẠI</small><strong>Cơ bản · Hệ Mặt Trời nhỏ</strong></span></div>
-                  <div class="hero-progress"><div><span>Tiến độ hành trình</span><strong>32%</strong></div><div class="progress-track"><span style="width:32%"></span></div></div>
+                  <div class="hero-level"><span class="level-icon"><svg class="icon"><use href="#i-orbit"/></svg></span><span><small>HÀNH TINH HIỆN TẠI</small><strong id="currentPlanetName">Nét vẽ đầu tiên</strong></span></div>
+                  <div class="hero-progress"><div><span>Tiến độ hành trình</span><strong id="overallProgressText">0%</strong></div><div class="progress-track"><span id="overallProgressBar" style="width:0%"></span></div></div>
                 </div>
               </section>
 
               <div class="metric-grid">
-                <div class="metric-card"><span class="metric-icon purple"><svg class="icon"><use href="#i-book"/></svg></span><div><small>BÀI HỌC ĐÃ HOÀN THÀNH</small><strong>8 <span>/ 25 bài</span></strong></div><span class="metric-trend">+2 tuần này</span></div>
-                <div class="metric-card"><span class="metric-icon orange"><svg class="icon"><use href="#i-flame"/></svg></span><div><small>CHUỖI HỌC TẬP</small><strong>5 <span>ngày</span></strong></div><span class="metric-note">Tiếp tục phát huy!</span></div>
-                <div class="metric-card"><span class="metric-icon cyan"><svg class="icon"><use href="#i-image"/></svg></span><div><small>TÁC PHẨM CỦA BẠN</small><strong>12 <span>tác phẩm</span></strong></div><button class="metric-link" data-view="gallery">Xem tất cả<svg class="icon"><use href="#i-chevron-right"/></svg></button></div>
+                <div class="metric-card"><span class="metric-icon purple"><svg class="icon"><use href="#i-book"/></svg></span><div><small>BÀI HỌC ĐÃ HOÀN THÀNH</small><strong id="completedLessonsMetric">0 <span>/ 4 bài</span></strong></div><span class="metric-trend" id="lessonMetricNote">Sẵn sàng bắt đầu</span></div>
+                <div class="metric-card"><span class="metric-icon orange"><svg class="icon"><use href="#i-flame"/></svg></span><div><small>CHUỖI HỌC TẬP</small><strong id="streakMetric">0 <span>ngày</span></strong></div><span class="metric-note" id="streakMetricNote">Học một chút mỗi ngày</span></div>
+                <div class="metric-card"><span class="metric-icon cyan"><svg class="icon"><use href="#i-image"/></svg></span><div><small>TÁC PHẨM CỦA BẠN</small><strong id="artworkMetric">0 <span>tác phẩm</span></strong></div><button class="metric-link" data-view="gallery">Xem tất cả<svg class="icon"><use href="#i-chevron-right"/></svg></button></div>
               </div>
 
               <section class="section-block">
                 <div class="section-heading"><div><h2>Hành trình của bạn</h2><p>Khám phá từng hành tinh, mở khóa kỹ năng mới.</p></div><button class="text-button" data-view="learning">Xem lộ trình<svg class="icon"><use href="#i-arrow"/></svg></button></div>
                 <div class="planet-grid">
                   <button class="planet-card" data-lesson="basics">
-                    <span class="planet-state state-current"><span></span>ĐANG HỌC</span>
+                    <span class="planet-state state-current" data-planet-state="basics"><span></span>BẮT ĐẦU TẠI ĐÂY</span>
                     <span class="planet-visual planet-one"><span class="planet-sphere"></span><span class="planet-orbit"></span><i></i></span>
-                    <span class="planet-copy"><small>HÀNH TINH 01</small><strong>Nét vẽ đầu tiên</strong><span>4 bài học · 45 phút</span></span>
-                    <span class="planet-progress"><span style="width:68%"></span></span>
+                    <span class="planet-copy"><small>HÀNH TINH 01</small><strong>Nét vẽ đầu tiên</strong><span>4 bước · 45 phút</span></span>
+                    <span class="planet-progress"><span data-planet-progress="basics" style="width:0%"></span></span>
                   </button>
                   <button class="planet-card" data-lesson="color">
-                    <span class="planet-state"><svg class="icon"><use href="#i-lock"/></svg>TIẾP THEO</span>
+                    <span class="planet-state" data-planet-state="color"><svg class="icon"><use href="#i-arrow"/></svg>BÀI TIẾP THEO</span>
                     <span class="planet-visual planet-two"><span class="planet-sphere"></span><span class="planet-orbit"></span><i></i></span>
-                    <span class="planet-copy"><small>HÀNH TINH 02</small><strong>Vũ trụ màu sắc</strong><span>5 bài học · 1 giờ</span></span>
-                    <span class="planet-progress"><span style="width:0%"></span></span>
+                    <span class="planet-copy"><small>HÀNH TINH 02</small><strong>Vũ trụ màu sắc</strong><span>5 bước · 60 phút</span></span>
+                    <span class="planet-progress"><span data-planet-progress="color" style="width:0%"></span></span>
                   </button>
                   <button class="planet-card" data-lesson="composition">
-                    <span class="planet-state"><svg class="icon"><use href="#i-lock"/></svg>CHƯA MỞ</span>
+                    <span class="planet-state" data-planet-state="composition"><svg class="icon"><use href="#i-arrow"/></svg>KHÁM PHÁ SAU</span>
                     <span class="planet-visual planet-three"><span class="planet-sphere"></span><span class="planet-orbit"></span><i></i></span>
-                    <span class="planet-copy"><small>HÀNH TINH 03</small><strong>Bố cục thiên hà</strong><span>6 bài học · 1.5 giờ</span></span>
-                    <span class="planet-progress"><span style="width:0%"></span></span>
+                    <span class="planet-copy"><small>HÀNH TINH 03</small><strong>Bố cục thiên hà</strong><span>5 bước · 55 phút</span></span>
+                    <span class="planet-progress"><span data-planet-progress="composition" style="width:0%"></span></span>
                   </button>
                 </div>
               </section>
@@ -1036,7 +241,7 @@ kbd { padding: 3px 5px; border: 1px solid var(--line-strong); border-radius: 5px
                     </svg>
                     <span class="lesson-play"><svg class="icon"><use href="#i-play"/></svg></span>
                   </span>
-                  <span class="continue-copy"><span class="lesson-tag">BÀI 03 · TRÌNH ĐỘ CƠ BẢN</span><strong>Bố cục & điểm nhấn</strong><span>Học cách đặt vật thể, tạo điểm nhấn và dẫn mắt người xem.</span><span class="continue-meta"><span><svg class="icon"><use href="#i-clock"/></svg>18 phút</span><span><svg class="icon"><use href="#i-book"/></svg>5 bước</span><span class="lesson-percent">68%</span></span><span class="progress-track"><span style="width:68%"></span></span></span>
+                  <span class="continue-copy"><span class="lesson-tag" id="continueLessonTag">BÀI ĐẦU TIÊN · TRÌNH ĐỘ CƠ BẢN</span><strong id="continueLessonTitle">Nét vẽ đầu tiên</strong><span id="continueLessonDescription">Làm quen với nét thẳng, nét cong và cách quan sát hình dáng.</span><span class="continue-meta"><span><svg class="icon"><use href="#i-clock"/></svg><span id="continueLessonDuration">45 phút</span></span><span><svg class="icon"><use href="#i-book"/></svg><span id="continueLessonSteps">4 bước</span></span><span class="lesson-percent" id="continueLessonPercent">0%</span></span><span class="progress-track"><span id="continueLessonBar" style="width:0%"></span></span></span>
                   <span class="continue-arrow"><svg class="icon"><use href="#i-arrow"/></svg></span>
                 </button>
               </section>
@@ -1045,8 +250,8 @@ kbd { padding: 3px 5px; border: 1px solid var(--line-strong); border-radius: 5px
             <aside class="dashboard-aside">
               <section class="nova-card">
                 <div class="nova-orb"><span></span><svg class="icon"><use href="#i-sparkles"/></svg></div>
-                <span class="nova-status"><span></span>NOVA AI · SẴN SÀNG</span>
-                <h2>Mình có thể giúp gì<br>cho bạn hôm nay?</h2>
+                <span class="nova-status"><span></span>NOVA · GỢI Ý HỌC TẬP</span>
+                <h2>Băn khoăn khi bắt đầu?<br>Hỏi Nova nhé.</h2>
                 <p>Hỏi về màu sắc, bố cục hoặc bất kỳ điều gì đang làm bạn băn khoăn.</p>
                 <div class="prompt-list">
                   <button data-prompt="Mình mới bắt đầu vẽ, nên học gì trước?">Mình mới bắt đầu vẽ, nên học gì trước?<svg class="icon"><use href="#i-arrow"/></svg></button>
@@ -1057,7 +262,7 @@ kbd { padding: 3px 5px; border: 1px solid var(--line-strong); border-radius: 5px
               </section>
 
               <section class="daily-challenge card-panel">
-                <div class="panel-heading"><div><span class="panel-kicker">THỬ THÁCH HÀNG NGÀY</span><h3>Một chút sáng tạo</h3></div><span class="xp-badge">+150 XP</span></div>
+                <div class="panel-heading"><div><span class="panel-kicker">THỬ THÁCH HÀNG NGÀY</span><h3>Một chút sáng tạo</h3></div><span class="xp-badge">15 phút</span></div>
                 <div class="challenge-art" aria-hidden="true"><span class="challenge-planet"></span><span class="challenge-ring"></span><span class="challenge-star star-one"></span><span class="challenge-star star-two"></span><svg viewBox="0 0 100 100"><path d="m50 22 7 21 22 7-22 7-7 21-7-21-22-7 22-7 7-21Z" fill="#F9F6FF"/></svg></div>
                 <h4>Vẽ hành tinh của riêng bạn</h4>
                 <p>Kết hợp 3 màu yêu thích và tạo một thế giới chưa từng tồn tại.</p>
@@ -1066,8 +271,8 @@ kbd { padding: 3px 5px; border: 1px solid var(--line-strong); border-radius: 5px
               </section>
 
               <section class="weekly-card card-panel">
-                <div class="panel-heading"><h3>Tuần này của bạn</h3><span class="streak-pill"><svg class="icon"><use href="#i-flame"/></svg>5 ngày</span></div>
-                <div class="week-days"><span class="done"><small>T2</small><i><svg class="icon"><use href="#i-check"/></svg></i></span><span class="done"><small>T3</small><i><svg class="icon"><use href="#i-check"/></svg></i></span><span class="done"><small>T4</small><i><svg class="icon"><use href="#i-check"/></svg></i></span><span class="done"><small>T5</small><i><svg class="icon"><use href="#i-check"/></svg></i></span><span class="today"><small>T6</small><i>26</i></span><span><small>T7</small><i></i></span><span><small>CN</small><i></i></span></div>
+                <div class="panel-heading"><h3>Tuần này của bạn</h3><span class="streak-pill"><svg class="icon"><use href="#i-flame"/></svg><span id="weeklyStreak">0 ngày</span></span></div>
+                <div class="week-days" id="weekDays"></div>
                 <div class="weekly-quote"><svg class="icon"><use href="#i-lightbulb"/></svg><p>“Không cần hoàn hảo. Chỉ cần bắt đầu.”</p></div>
               </section>
             </aside>
@@ -1077,35 +282,35 @@ kbd { padding: 3px 5px; border: 1px solid var(--line-strong); border-radius: 5px
         <section class="view" id="view-learning" data-title="Lộ trình học">
           <div class="page-header">
             <div><p class="eyebrow">HÀNH TRÌNH NGHỆ THUẬT</p><h1>Khám phá từng thế giới mới</h1><p class="page-description">Mỗi hành tinh là một kỹ năng. Học theo lộ trình hoặc chọn điều bạn yêu thích.</p></div>
-            <div class="learning-summary"><span class="summary-ring" style="--progress:32%"><strong>32%</strong></span><span><small>TOÀN BỘ HÀNH TRÌNH</small><strong>8 / 25 bài học</strong></span></div>
+            <div class="learning-summary"><span class="summary-ring" id="learningRing" style="--progress:0%"><strong id="learningPercent">0%</strong></span><span><small>TOÀN BỘ HÀNH TRÌNH</small><strong id="learningCount">0 / 4 bài học</strong></span></div>
           </div>
-          <div class="filter-row" role="group" aria-label="Lọc lộ trình"><button class="filter-chip active" data-filter="all">Tất cả</button><button class="filter-chip" data-filter="current">Đang học</button><button class="filter-chip" data-filter="done">Đã hoàn thành</button><button class="filter-chip" data-filter="locked">Chưa mở</button></div>
+          <div class="filter-row" role="group" aria-label="Lọc lộ trình"><button class="filter-chip active" data-filter="all">Tất cả</button><button class="filter-chip" data-filter="current">Đang học</button><button class="filter-chip" data-filter="done">Đã hoàn thành</button><button class="filter-chip" data-filter="new">Chưa bắt đầu</button></div>
           <div class="learning-path">
-            <article class="learning-module" data-lesson="basics" data-status="current">
+            <article class="learning-module" data-lesson="basics" data-status="new">
               <div class="module-visual module-purple"><span class="module-number">01</span><span class="module-planet"></span><span class="module-orbit"></span></div>
-              <div class="module-body"><span class="status-label current"><span></span>ĐANG HỌC</span><h2>Nét vẽ đầu tiên</h2><p>Làm quen với nét thẳng, nét cong, áp lực bút và cách quan sát hình dáng.</p><div class="module-meta"><span><svg class="icon"><use href="#i-book"/></svg>4 bài học</span><span><svg class="icon"><use href="#i-clock"/></svg>45 phút</span></div><div class="module-progress"><div class="progress-track"><span style="width:68%"></span></div><strong>68%</strong></div><button class="button button-primary" data-lesson="basics">Tiếp tục hành tinh<svg class="icon"><use href="#i-arrow"/></svg></button></div>
+              <div class="module-body"><span class="status-label current" data-module-status="basics"><span></span>BẮT ĐẦU TẠI ĐÂY</span><h2>Nét vẽ đầu tiên</h2><p>Quan sát hình dáng, vẽ nét thẳng, nét cong và phác thảo bằng những nét nhẹ.</p><div class="module-meta"><span><svg class="icon"><use href="#i-book"/></svg>4 bước</span><span><svg class="icon"><use href="#i-clock"/></svg>45 phút</span></div><div class="module-progress"><div class="progress-track"><span data-module-progress="basics" style="width:0%"></span></div><strong data-module-percent="basics">0%</strong></div><button class="button button-primary" data-lesson="basics"><span data-module-button="basics">Bắt đầu hành tinh</span><svg class="icon"><use href="#i-arrow"/></svg></button></div>
             </article>
-            <article class="learning-module" data-lesson="color" data-status="locked">
+            <article class="learning-module" data-lesson="color" data-status="new">
               <div class="module-visual module-orange"><span class="module-number">02</span><span class="module-planet"></span><span class="module-orbit"></span></div>
-              <div class="module-body"><span class="status-label"><svg class="icon"><use href="#i-lock"/></svg>MỞ SAU HÀNH TINH 01</span><h2>Vũ trụ màu sắc</h2><p>Hiểu vòng tròn màu, phối màu, sắc độ và cảm xúc của từng màu.</p><div class="module-meta"><span><svg class="icon"><use href="#i-book"/></svg>5 bài học</span><span><svg class="icon"><use href="#i-clock"/></svg>1 giờ</span></div><div class="module-progress"><div class="progress-track"><span style="width:0%"></span></div><strong>0%</strong></div><button class="button button-secondary" data-lesson="color">Xem trước hành tinh<svg class="icon"><use href="#i-arrow"/></svg></button></div>
+              <div class="module-body"><span class="status-label" data-module-status="color"><svg class="icon"><use href="#i-arrow"/></svg>BÀI TIẾP THEO</span><h2>Vũ trụ màu sắc</h2><p>Hiểu màu chính, màu phụ, sắc độ và cách tạo điểm nhấn cho tác phẩm.</p><div class="module-meta"><span><svg class="icon"><use href="#i-book"/></svg>5 bước</span><span><svg class="icon"><use href="#i-clock"/></svg>60 phút</span></div><div class="module-progress"><div class="progress-track"><span data-module-progress="color" style="width:0%"></span></div><strong data-module-percent="color">0%</strong></div><button class="button button-secondary" data-lesson="color"><span data-module-button="color">Bắt đầu hành tinh</span><svg class="icon"><use href="#i-arrow"/></svg></button></div>
             </article>
-            <article class="learning-module" data-lesson="composition" data-status="locked">
+            <article class="learning-module" data-lesson="composition" data-status="new">
               <div class="module-visual module-cyan"><span class="module-number">03</span><span class="module-planet"></span><span class="module-orbit"></span></div>
-              <div class="module-body"><span class="status-label"><svg class="icon"><use href="#i-lock"/></svg>CHƯA MỞ</span><h2>Bố cục thiên hà</h2><p>Đặt vật thể, tạo điểm nhấn và dẫn mắt người xem qua không gian tranh.</p><div class="module-meta"><span><svg class="icon"><use href="#i-book"/></svg>6 bài học</span><span><svg class="icon"><use href="#i-clock"/></svg>1.5 giờ</span></div><div class="module-progress"><div class="progress-track"><span style="width:0%"></span></div><strong>0%</strong></div><button class="button button-secondary" data-lesson="composition">Xem trước hành tinh<svg class="icon"><use href="#i-arrow"/></svg></button></div>
+              <div class="module-body"><span class="status-label" data-module-status="composition"><svg class="icon"><use href="#i-arrow"/></svg>KHÁM PHÁ TIẾP THEO</span><h2>Bố cục thiên hà</h2><p>Đặt vật thể, tạo khoảng trống và dẫn mắt người xem qua không gian tranh.</p><div class="module-meta"><span><svg class="icon"><use href="#i-book"/></svg>5 bước</span><span><svg class="icon"><use href="#i-clock"/></svg>55 phút</span></div><div class="module-progress"><div class="progress-track"><span data-module-progress="composition" style="width:0%"></span></div><strong data-module-percent="composition">0%</strong></div><button class="button button-secondary" data-lesson="composition"><span data-module-button="composition">Bắt đầu hành tinh</span><svg class="icon"><use href="#i-arrow"/></svg></button></div>
             </article>
-            <article class="learning-module" data-lesson="perspective" data-status="locked">
+            <article class="learning-module" data-lesson="perspective" data-status="new">
               <div class="module-visual module-pink"><span class="module-number">04</span><span class="module-planet"></span><span class="module-orbit"></span></div>
-              <div class="module-body"><span class="status-label"><svg class="icon"><use href="#i-lock"/></svg>CHƯA MỞ</span><h2>Chiều sâu & phối cảnh</h2><p>Tạo chiều sâu, hiểu điểm biến mất và xây dựng thế giới ba chiều.</p><div class="module-meta"><span><svg class="icon"><use href="#i-book"/></svg>5 bài học</span><span><svg class="icon"><use href="#i-clock"/></svg>1.25 giờ</span></div><div class="module-progress"><div class="progress-track"><span style="width:0%"></span></div><strong>0%</strong></div><button class="button button-secondary" data-lesson="perspective">Xem trước hành tinh<svg class="icon"><use href="#i-arrow"/></svg></button></div>
+              <div class="module-body"><span class="status-label" data-module-status="perspective"><svg class="icon"><use href="#i-arrow"/></svg>THỬ THÁCH MỚI</span><h2>Chiều sâu & phối cảnh</h2><p>Dùng đường dẫn, tỷ lệ và điểm biến mất để tạo cảm giác chiều sâu.</p><div class="module-meta"><span><svg class="icon"><use href="#i-book"/></svg>5 bước</span><span><svg class="icon"><use href="#i-clock"/></svg>70 phút</span></div><div class="module-progress"><div class="progress-track"><span data-module-progress="perspective" style="width:0%"></span></div><strong data-module-percent="perspective">0%</strong></div><button class="button button-secondary" data-lesson="perspective"><span data-module-button="perspective">Bắt đầu hành tinh</span><svg class="icon"><use href="#i-arrow"/></svg></button></div>
             </article>
           </div>
         </section>
 
         <section class="view studio-view" id="view-studio" data-title="Không gian vẽ">
-          <div class="studio-page-header"><div><p class="eyebrow">PHÒNG THỰC HÀNH</p><h1 id="studioLessonTitle">Bố cục & điểm nhấn</h1><p class="page-description" id="studioLessonDescription">Bài 03 · Hãy tạo điểm nhấn bằng màu sắc và vị trí đặt vật thể.</p></div><div class="studio-header-actions"><span class="autosave-state" id="autosaveState"><span></span>Đã lưu trên thiết bị</span><button class="button button-secondary" data-action="save-project"><svg class="icon"><use href="#i-save"/></svg>Lưu</button><button class="button button-primary" data-action="export-art"><svg class="icon"><use href="#i-download"/></svg>Xuất PNG</button></div></div>
+          <div class="studio-page-header"><div><p class="eyebrow">PHÒNG THỰC HÀNH</p><h1 id="studioLessonTitle">Nét vẽ đầu tiên</h1><p class="page-description" id="studioLessonDescription">Bắt đầu với những nét nhẹ, ngắn và tự nhiên.</p></div><div class="studio-header-actions"><span class="autosave-state" id="autosaveState"><span></span>Đã lưu trên thiết bị</span><button class="button button-secondary" data-action="save-artwork"><svg class="icon"><use href="#i-image"/></svg>Lưu vào bộ sưu tập</button><button class="button button-secondary" data-action="save-project"><svg class="icon"><use href="#i-save"/></svg>Lưu</button><button class="button button-primary" data-action="export-art"><svg class="icon"><use href="#i-download"/></svg>Xuất PNG</button></div></div>
           <div class="studio-layout">
             <section class="canvas-panel">
               <div class="canvas-toolbar">
-                <div class="canvas-toolbar-left"><button class="icon-button" data-action="undo" aria-label="Hoàn tác"><svg class="icon"><use href="#i-undo"/></svg></button><button class="icon-button" data-action="redo" aria-label="Làm lại"><svg class="icon"><use href="#i-redo"/></svg></button><span class="toolbar-divider"></span><span class="canvas-file-name"><svg class="icon"><use href="#i-image"/></svg><span id="canvasFileName">bo-cuc-diem-nhan.png</span></span></div>
+                <div class="canvas-toolbar-left"><button class="icon-button" data-action="undo" aria-label="Hoàn tác"><svg class="icon"><use href="#i-undo"/></svg></button><button class="icon-button" data-action="redo" aria-label="Làm lại"><svg class="icon"><use href="#i-redo"/></svg></button><span class="toolbar-divider"></span><button class="icon-button" data-action="new-canvas" aria-label="Tạo tranh mới" title="Tạo tranh mới"><svg class="icon"><use href="#i-plus"/></svg></button><span class="toolbar-divider"></span><span class="canvas-file-name"><svg class="icon"><use href="#i-image"/></svg><span id="canvasFileName">net-ve-dau-tien.png</span></span></div>
                 <div class="zoom-controls"><button class="icon-button tiny" data-action="zoom-out" aria-label="Thu nhỏ"><svg class="icon"><use href="#i-minus"/></svg></button><button class="zoom-value" data-action="zoom-reset" id="zoomValue">100%</button><button class="icon-button tiny" data-action="zoom-in" aria-label="Phóng to"><svg class="icon"><use href="#i-plus"/></svg></button></div>
               </div>
               <div class="canvas-stage" id="canvasStage">
@@ -1115,7 +320,7 @@ kbd { padding: 3px 5px; border: 1px solid var(--line-strong); border-radius: 5px
                   <svg viewBox="0 0 1000 700" fill="none"><circle cx="500" cy="310" r="125" stroke="#8A72E8" stroke-width="2" stroke-dasharray="10 10"/><circle cx="500" cy="310" r="92" stroke="#8A72E8" stroke-width="1" stroke-dasharray="6 10" opacity=".55"/><path d="M375 490h250M500 490v-330" stroke="#8A72E8" stroke-width="2" stroke-dasharray="8 8" opacity=".55"/><path d="m465 235 35-70 35 70-35 70-35-70Z" stroke="#8A72E8" stroke-width="2" stroke-dasharray="8 8" opacity=".65"/></svg>
                 </div>
                 <div class="symmetry-guide" id="symmetryGuide"></div>
-                <div class="canvas-hint" id="canvasHint"><svg class="icon"><use href="#i-lightbulb"/></svg><span>Giữ chuột và kéo để vẽ. Nhấn <kbd>Ctrl + Z</kbd> để hoàn tác.</span><button data-action="dismiss-hint" aria-label="Đóng gợi ý"><svg class="icon"><use href="#i-x"/></svg></button></div>
+                <div class="canvas-hint" id="canvasHint"><svg class="icon"><use href="#i-lightbulb"/></svg><span>Giữ chuột hoặc dùng ngón tay để vẽ. Nhấn <kbd>Ctrl + Z</kbd> để hoàn tác.</span><button data-action="dismiss-hint" aria-label="Đóng gợi ý"><svg class="icon"><use href="#i-x"/></svg></button></div>
               </div>
               <div class="canvas-statusbar"><span><span class="status-dot"></span><span id="activeLayerLabel">Đang vẽ trên Lớp phác thảo</span></span><span>1000 × 700 px <i>·</i> RGB</span></div>
             </section>
@@ -1133,6 +338,7 @@ kbd { padding: 3px 5px; border: 1px solid var(--line-strong); border-radius: 5px
                   <button class="tool-button" data-tool="circle" title="Hình tròn (O)"><svg class="icon"><use href="#i-circle"/></svg><span>Hình tròn</span></button>
                   <button class="tool-button" data-tool="fill" title="Đổ màu (F)"><svg class="icon"><use href="#i-fill"/></svg><span>Đổ màu</span></button>
                   <button class="tool-button" data-tool="eyedropper" title="Lấy màu (I)"><svg class="icon"><use href="#i-palette"/></svg><span>Lấy màu</span></button>
+                  <button class="tool-button" data-tool="hand" title="Di chuyển tranh (H)"><svg class="icon"><use href="#i-hand"/></svg><span>Di chuyển</span></button>
                 </div>
                 <div class="tool-divider"></div>
                 <div class="range-heading"><label for="brushSize">Kích thước</label><span id="brushSizeValue">12 px</span></div>
@@ -1168,42 +374,62 @@ kbd { padding: 3px 5px; border: 1px solid var(--line-strong); border-radius: 5px
 
             <aside class="lesson-guide-panel">
               <span class="guide-ai"><svg class="icon"><use href="#i-sparkles"/></svg>HƯỚNG DẪN TỪNG BƯỚC</span>
-              <h3>Bố cục & điểm nhấn</h3>
-              <p class="guide-intro">Hãy tạo một tác phẩm có chủ thể rõ ràng và không gian thoáng.</p>
-              <div class="guide-steps">
-                <button class="guide-step done" data-step="1"><span><svg class="icon"><use href="#i-check"/></svg></span><div><strong>Quan sát ảnh mẫu</strong><small>Xác định chủ thể và khoảng trống.</small></div></button>
-                <button class="guide-step active" data-step="2"><span>2</span><div><strong>Phác thảo khối chính</strong><small>Vẽ nhẹ bằng bút chì.</small></div></button>
-                <button class="guide-step" data-step="3"><span>3</span><div><strong>Thêm màu sắc</strong><small>Chọn bảng màu phù hợp.</small></div></button>
-                <button class="guide-step" data-step="4"><span>4</span><div><strong>Tạo điểm nhấn</strong><small>Làm nổi một chi tiết quan trọng.</small></div></button>
+              <h3 id="guideLessonTitle">Nét vẽ đầu tiên</h3>
+              <p class="guide-intro" id="guideLessonIntro">Quan sát và làm quen với những nét vẽ cơ bản.</p>
+              <div class="guide-progress-label"><span id="guideProgressText">Bước 1 / 4</span><strong id="guidePercent">0%</strong></div>
+              <div class="progress-track guide-progress-track"><span id="guideProgressBar" style="width:0%"></span></div>
+              <div class="guide-steps" id="guideSteps"></div>
+              <div class="guide-task" id="guideTask">
+                <span class="guide-task-label">VIỆC CẦN LÀM</span>
+                <p id="guideTaskText">Vẽ 10 đường thẳng với độ dài khác nhau.</p>
               </div>
-              <div class="nova-tip"><span class="mini-nova"><svg class="icon"><use href="#i-sparkles"/></svg></span><div><strong>Mẹo nhỏ từ Nova</strong><p>Đừng đặt chủ thể chính giữa tranh. Hãy thử đặt lệch để tạo nhịp điệu thú vị hơn.</p></div></div>
+              <button class="button button-primary full-width" id="completeStepButton" data-action="complete-step">Hoàn thành bước 1<svg class="icon"><use href="#i-check"/></svg></button>
+              <div class="nova-tip"><span class="mini-nova"><svg class="icon"><use href="#i-sparkles"/></svg></span><div><strong>Mẹo nhỏ từ Nova</strong><p id="guideTip">Vẽ từ vai, giữ nét nhẹ và đừng căng thẳng cổ tay.</p></div></div>
               <button class="text-button guide-help" data-action="open-assistant">Hỏi Nova về bài này<svg class="icon"><use href="#i-arrow"/></svg></button>
             </aside>
           </div>
         </section>
 
         <section class="view" id="view-gallery" data-title="Bộ sưu tập">
-          <div class="page-header"><div><p class="eyebrow">TRIỂN LÃM CÁ NHÂN</p><h1>Những thế giới bạn tạo ra</h1><p class="page-description">Lưu giữ mỗi nét vẽ và nhìn lại hành trình của mình.</p></div><button class="button button-primary" data-action="upload-art"><svg class="icon"><use href="#i-upload"/></svg>Tải tác phẩm lên</button><input type="file" id="artUpload" accept="image/*" hidden></div>
-          <div class="gallery-toolbar"><div class="filter-row"><button class="filter-chip active" data-gallery-filter="all">Tất cả</button><button class="filter-chip" data-gallery-filter="mine">Của tôi</button><button class="filter-chip" data-gallery-filter="favorite">Yêu thích</button></div><span class="gallery-count" id="galleryCount">12 tác phẩm</span></div>
+          <div class="page-header"><div><p class="eyebrow">TRIỂN LÃM CÁ NHÂN</p><h1>Những thế giới bạn tạo ra</h1><p class="page-description">Lưu tranh từ phòng vẽ, tải ảnh lên và giữ lại những tác phẩm bạn yêu thích.</p></div><button class="button button-primary" data-action="upload-art"><svg class="icon"><use href="#i-upload"/></svg>Tải tác phẩm lên</button><input type="file" id="artUpload" accept="image/*" hidden></div>
+          <div class="gallery-toolbar"><div class="filter-row"><button class="filter-chip active" data-gallery-filter="all">Tất cả</button><button class="filter-chip" data-gallery-filter="mine">Của tôi</button><button class="filter-chip" data-gallery-filter="favorite">Yêu thích</button></div><span class="gallery-count" id="galleryCount">6 tác phẩm mẫu</span></div>
           <div class="gallery-grid" id="galleryGrid">
-            <article class="art-card" data-owner="mine" data-favorite="true"><div class="art-image art-nebula"><span class="art-planet"></span><span class="art-ring"></span><i></i><i></i><i></i></div><div class="art-info"><div><strong>Thiên hà tím</strong><small>Bài 02 · 25/11/2026</small></div><button class="icon-button favorite active" data-action="favorite" aria-label="Bỏ yêu thích"><svg class="icon"><use href="#i-star"/></svg></button></div></article>
-            <article class="art-card" data-owner="mine" data-favorite="true"><div class="art-image art-botanical"><svg viewBox="0 0 300 230"><path d="M151 210V56m0 82c-55 0-83-29-90-77 51-4 85 20 90 77Zm0-32c47 0 72-26 78-67-45-3-74 18-78 67Z" fill="#527C68"/><path d="M151 75c-32-19-37-47-21-74 30 14 36 40 21 74Z" fill="#83A986"/></svg><span class="pot"></span></div><div class="art-info"><div><strong>Khu vườn nhỏ</strong><small>Tự do · 22/11/2026</small></div><button class="icon-button favorite active" data-action="favorite" aria-label="Bỏ yêu thích"><svg class="icon"><use href="#i-star"/></svg></button></div></article>
-            <article class="art-card" data-owner="class" data-favorite="false"><div class="art-image art-moon"><span></span><i></i><i></i><i></i></div><div class="art-info"><div><strong>Đêm trên Mặt Trăng</strong><small>Thử thách lớp · 20/11/2026</small></div><button class="icon-button favorite" data-action="favorite" aria-label="Yêu thích"><svg class="icon"><use href="#i-star"/></svg></button></div></article>
-            <article class="art-card" data-owner="mine" data-favorite="false"><div class="art-image art-still-life"><svg viewBox="0 0 300 230"><rect width="300" height="230" fill="#F2E6D8"/><circle cx="232" cy="60" r="32" fill="#F6B97D"/><path d="M0 180c60-18 98-8 150 6 58 16 102-6 150-15v59H0v-50Z" fill="#C8B6A5"/><path d="M126 82h44l11 22c17 24 20 58 12 77-8 17-21 22-45 22s-37-5-45-22c-8-19-5-53 12-77l11-22Z" fill="#7D67A9"/><ellipse cx="148" cy="83" rx="22" ry="6" fill="#B9A8D2"/><path d="M84 181c12-19 27-19 39 0-12 19-27 19-39 0Z" fill="#D77E73"/></svg></div><div class="art-info"><div><strong>Tĩnh vật đầu tiên</strong><small>Bài 01 · 18/11/2026</small></div><button class="icon-button favorite" data-action="favorite" aria-label="Yêu thích"><svg class="icon"><use href="#i-star"/></svg></button></div></article>
-            <article class="art-card" data-owner="mine" data-favorite="false"><div class="art-image art-mountains"><svg viewBox="0 0 300 230"><defs><linearGradient id="mountainSky" x1="0" y1="0" x2="0" y2="230"><stop stop-color="#A9C7E8"/><stop offset="1" stop-color="#E8C8C0"/></linearGradient></defs><rect width="300" height="230" fill="url(#mountainSky)"/><circle cx="228" cy="52" r="25" fill="#FFF0D0"/><path d="m0 180 78-91 43 55 63-102 116 138v50H0v-50Z" fill="#6E7D98"/><path d="m130 111 54-69 50 59-26-8-21 16-18-13-39 15Z" fill="#E8EDF4"/><path d="m0 205 75-47 61 35 56-35 108 49v23H0v-25Z" fill="#46586F"/></svg></div><div class="art-info"><div><strong>Phối cảnh núi</strong><small>Bài 04 · 15/11/2026</small></div><button class="icon-button favorite" data-action="favorite" aria-label="Yêu thích"><svg class="icon"><use href="#i-star"/></svg></button></div></article>
-            <article class="art-card" data-owner="class" data-favorite="false"><div class="art-image art-rocket"><svg viewBox="0 0 300 230"><circle cx="52" cy="48" r="21" fill="#FFCD8B"/><circle cx="248" cy="75" r="31" fill="#8F78D7"/><ellipse cx="248" cy="75" rx="53" ry="13" transform="rotate(-25 248 75)" stroke="#C7B8FF" stroke-width="5"/><path d="m151 34 32 66-15 52h-34l-15-52 32-66Z" fill="#F5F2FF"/><circle cx="151" cy="91" r="14" fill="#6E5BB2"/><circle cx="151" cy="91" r="9" fill="#9CE7EF"/><path d="m116 117-27 34 28-6m87-28 27 34-28-6" fill="#B5A5E6"/><path d="m139 152 12 54 12-54" fill="#FFBC7C"/></svg><i></i><i></i></div><div class="art-info"><div><strong>Chuyến bay đầu tiên</strong><small>Thử thách lớp · 12/11/2026</small></div><button class="icon-button favorite" data-action="favorite" aria-label="Yêu thích"><svg class="icon"><use href="#i-star"/></svg></button></div></article>
+            <article class="art-card" data-owner="sample" data-favorite="false"><div class="art-image art-nebula"><span class="art-planet"></span><span class="art-ring"></span><i></i><i></i><i></i></div><div class="art-info"><div><strong>Thiên hà tím</strong><small>Tác phẩm mẫu · Cổ điển</small></div><button class="icon-button favorite" data-action="favorite" aria-label="Yêu thích"><svg class="icon"><use href="#i-star"/></svg></button></div></article>
+            <article class="art-card" data-owner="sample" data-favorite="false"><div class="art-image art-botanical"><svg viewBox="0 0 300 230"><path d="M151 210V56m0 82c-55 0-83-29-90-77 51-4 85 20 90 77Zm0-32c47 0 72-26 78-67-45-3-74 18-78 67Z" fill="#527C68"/><path d="M151 75c-32-19-37-47-21-74 30 14 36 40 21 74Z" fill="#83A986"/></svg><span class="pot"></span></div><div class="art-info"><div><strong>Khu vườn nhỏ</strong><small>Tác phẩm mẫu · Thiên nhiên</small></div><button class="icon-button favorite" data-action="favorite" aria-label="Yêu thích"><svg class="icon"><use href="#i-star"/></svg></button></div></article>
+            <article class="art-card" data-owner="sample" data-favorite="false"><div class="art-image art-moon"><span></span><i></i><i></i><i></i></div><div class="art-info"><div><strong>Đêm trên Mặt Trăng</strong><small>Tác phẩm mẫu · Không gian</small></div><button class="icon-button favorite" data-action="favorite" aria-label="Yêu thích"><svg class="icon"><use href="#i-star"/></svg></button></div></article>
+            <article class="art-card" data-owner="sample" data-favorite="false"><div class="art-image art-still-life"><svg viewBox="0 0 300 230"><rect width="300" height="230" fill="#F2E6D8"/><circle cx="232" cy="60" r="32" fill="#F6B97D"/><path d="M0 180c60-18 98-8 150 6 58 16 102-6 150-15v59H0v-50Z" fill="#C8B6A5"/><path d="M126 82h44l11 22c17 24 20 58 12 77-8 17-21 22-45 22s-37-5-45-22c-8-19-5-53 12-77l11-22Z" fill="#7D67A9"/><ellipse cx="148" cy="83" rx="22" ry="6" fill="#B9A8D2"/><path d="M84 181c12-19 27-19 39 0-12 19-27 19-39 0Z" fill="#D77E73"/></svg></div><div class="art-info"><div><strong>Tĩnh vật đầu tiên</strong><small>Tác phẩm mẫu · Cơ bản</small></div><button class="icon-button favorite" data-action="favorite" aria-label="Yêu thích"><svg class="icon"><use href="#i-star"/></svg></button></div></article>
+            <article class="art-card" data-owner="sample" data-favorite="false"><div class="art-image art-mountains"><svg viewBox="0 0 300 230"><defs><linearGradient id="mountainSky" x1="0" y1="0" x2="0" y2="230"><stop stop-color="#A9C7E8"/><stop offset="1" stop-color="#E8C8C0"/></linearGradient></defs><rect width="300" height="230" fill="url(#mountainSky)"/><circle cx="228" cy="52" r="25" fill="#FFF0D0"/><path d="m0 180 78-91 43 55 63-102 116 138v50H0v-50Z" fill="#6E7D98"/><path d="m130 111 54-69 50 59-26-8-21 16-18-13-39 15Z" fill="#E8EDF4"/><path d="m0 205 75-47 61 35 56-35 108 49v23H0v-25Z" fill="#46586F"/></svg></div><div class="art-info"><div><strong>Phối cảnh núi</strong><small>Tác phẩm mẫu · Phối cảnh</small></div><button class="icon-button favorite" data-action="favorite" aria-label="Yêu thích"><svg class="icon"><use href="#i-star"/></svg></button></div></article>
+            <article class="art-card" data-owner="sample" data-favorite="false"><div class="art-image art-rocket"><svg viewBox="0 0 300 230"><circle cx="52" cy="48" r="21" fill="#FFCD8B"/><circle cx="248" cy="75" r="31" fill="#8F78D7"/><ellipse cx="248" cy="75" rx="53" ry="13" transform="rotate(-25 248 75)" stroke="#C7B8FF" stroke-width="5"/><path d="m151 34 32 66-15 52h-34l-15-52 32-66Z" fill="#F5F2FF"/><circle cx="151" cy="91" r="14" fill="#6E5BB2"/><circle cx="151" cy="91" r="9" fill="#9CE7EF"/><path d="m116 117-27 34 28-6m87-28 27 34-28-6" fill="#B5A5E6"/><path d="m139 152 12 54 12-54" fill="#FFBC7C"/></svg><i></i><i></i></div><div class="art-info"><div><strong>Chuyến bay đầu tiên</strong><small>Tác phẩm mẫu · Sáng tạo</small></div><button class="icon-button favorite" data-action="favorite" aria-label="Yêu thích"><svg class="icon"><use href="#i-star"/></svg></button></div></article>
+          </div>
+          <div class="gallery-empty" id="galleryEmpty" hidden>
+            <span class="empty-orbit"><svg class="icon"><use href="#i-image"/></svg></span>
+            <h2>Bộ sưu tập đang chờ tác phẩm đầu tiên</h2>
+            <p>Vẽ trong phòng thực hành rồi chọn “Lưu vào bộ sưu tập”, hoặc tải một bức ảnh lên.</p>
+            <button class="button button-primary" data-view="studio">Bắt đầu vẽ<svg class="icon"><use href="#i-arrow"/></svg></button>
           </div>
         </section>
 
         <section class="view" id="view-progress" data-title="Tiến độ của tôi">
-          <div class="page-header"><div><p class="eyebrow">HÀNH TRÌNH CỦA BẠN</p><h1>Mỗi bước nhỏ đều đáng tự hào</h1><p class="page-description">Theo dõi kỹ năng, thói quen học tập và những cột mốc đã đạt được.</p></div><span class="level-badge"><svg class="icon"><use href="#i-trophy"/></svg>Cấp 3 · Nhà khám phá</span></div>
-          <div class="progress-metrics"><div class="progress-stat"><span class="metric-icon purple"><svg class="icon"><use href="#i-clock"/></svg></span><div><small>THỜI GIAN HỌC</small><strong>12.5 <span>giờ</span></strong><em>+2.5 giờ tháng này</em></div></div><div class="progress-stat"><span class="metric-icon orange"><svg class="icon"><use href="#i-flame"/></svg></span><div><small>CHUỖI DÀI NHẤT</small><strong>9 <span>ngày</span></strong><em>Kỷ lục cá nhân</em></div></div><div class="progress-stat"><span class="metric-icon cyan"><svg class="icon"><use href="#i-book"/></svg></span><div><small>BÀI HỌC</small><strong>8 <span>/ 25</span></strong><em>32% hành trình</em></div></div><div class="progress-stat"><span class="metric-icon green"><svg class="icon"><use href="#i-star"/></svg></span><div><small>ĐIỂM KINH NGHIỆM</small><strong>1,240 <span>XP</span></strong><em>260 XP đến cấp 4</em></div></div></div>
-          <div class="progress-grid"><section class="card-panel chart-card"><div class="panel-heading"><div><h3>Hoạt động học tập</h3><p>Thời gian tập trung trong 7 ngày qua</p></div><span class="chart-legend"><i></i>Phút học</span></div><div class="bar-chart"><div><span style="height:42%"></span><small>T2</small></div><div><span style="height:68%"></span><small>T3</small></div><div><span style="height:48%"></span><small>T4</small></div><div><span style="height:82%"></span><small>T5</small></div><div class="today"><span style="height:58%"></span><small>T6</small></div><div><span style="height:22%"></span><small>T7</small></div><div><span style="height:12%"></span><small>CN</small></div></div></section><section class="card-panel skill-card"><div class="panel-heading"><h3>Kỹ năng của bạn</h3><span class="soft-badge">Đang phát triển</span></div><div class="skill-list"><div><span>Nét vẽ</span><div class="skill-track"><i style="width:78%"></i></div><strong>78%</strong></div><div><span>Màu sắc</span><div class="skill-track"><i style="width:56%"></i></div><strong>56%</strong></div><div><span>Bố cục</span><div class="skill-track"><i style="width:44%"></i></div><strong>44%</strong></div><div><span>Sáng tạo</span><div class="skill-track"><i style="width:68%"></i></div><strong>68%</strong></div></div></section></div>
-          <section class="section-block"><div class="section-heading"><div><h2>Huy hiệu của bạn</h2><p>Những cột mốc nhỏ trên hành trình lớn.</p></div></div><div class="achievement-grid"><div class="achievement unlocked"><span><svg class="icon"><use href="#i-flame"/></svg></span><strong>Ngọn lửa khởi đầu</strong><small>Học liên tiếp 3 ngày</small></div><div class="achievement unlocked"><span><svg class="icon"><use href="#i-pen"/></svg></span><strong>Nét vẽ đầu tiên</strong><small>Hoàn thành bài học 01</small></div><div class="achievement unlocked"><span><svg class="icon"><use href="#i-palette"/></svg></span><strong>Thợ săn màu sắc</strong><small>Thử 10 bảng màu</small></div><div class="achievement locked"><span><svg class="icon"><use href="#i-lock"/></svg></span><strong>Kiến tạo thiên hà</strong><small>Hoàn thành hành tinh 03</small></div></div></section>
+          <div class="page-header">
+            <div><p class="eyebrow">HÀNH TRÌNH CỦA BẠN</p><h1>Mỗi bước nhỏ đều đáng tự hào</h1><p class="page-description">Theo dõi kỹ năng, thói quen học tập và những cột mốc đã đạt được.</p></div>
+            <span class="level-badge"><svg class="icon"><use href="#i-trophy"/></svg><span id="levelBadgeText">Cấp 1 · Người bạn mới</span></span>
+          </div>
+          <div class="progress-metrics">
+            <div class="progress-stat"><span class="metric-icon purple"><svg class="icon"><use href="#i-clock"/></svg></span><div><small>THỜI GIAN HỌC</small><strong id="studyTimeMetric">0 <span>phút</span></strong><em id="studyTimeNote">Bắt đầu từ hôm nay</em></div></div>
+            <div class="progress-stat"><span class="metric-icon orange"><svg class="icon"><use href="#i-flame"/></svg></span><div><small>CHUỖI DÀI NHẤT</small><strong id="bestStreakMetric">0 <span>ngày</span></strong><em id="bestStreakNote">Kỷ lục cá nhân</em></div></div>
+            <div class="progress-stat"><span class="metric-icon cyan"><svg class="icon"><use href="#i-book"/></svg></span><div><small>BÀI HỌC</small><strong id="lessonsMetric">0 <span>/ 4</span></strong><em id="lessonsMetricNote">0% hành trình</em></div></div>
+            <div class="progress-stat"><span class="metric-icon green"><svg class="icon"><use href="#i-star"/></svg></span><div><small>ĐIỂM KINH NGHIỆM</small><strong id="xpMetric">0 <span>XP</span></strong><em id="xpNote">300 XP đến cấp 2</em></div></div>
+          </div>
+          <div class="progress-grid">
+            <section class="card-panel chart-card"><div class="panel-heading"><div><h3>Hoạt động học tập</h3><p>Thời gian thực hành trong 7 ngày qua</p></div><span class="chart-legend"><i></i>Phút học</span></div><div class="bar-chart" id="activityChart"></div></section>
+            <section class="card-panel skill-card"><div class="panel-heading"><h3>Kỹ năng của bạn</h3><span class="soft-badge">Theo tiến độ bài học</span></div><div class="skill-list" id="skillList"></div></section>
+          </div>
+          <section class="section-block"><div class="section-heading"><div><h2>Huy hiệu của bạn</h2><p>Những cột mốc nhỏ trên hành trình lớn.</p></div></div><div class="achievement-grid" id="achievementGrid"></div></section>
         </section>
 
         <section class="view" id="view-classroom" data-title="Lớp học">
-          <div class="page-header"><div><p class="eyebrow">HỌC CÙNG NHAU</p><h1>Lớp Mỹ thuật 01</h1><p class="page-description">Không gian học tập, giao bài và nhận xét của giảng viên.</p></div><button class="button button-primary" data-action="copy-class-code"><svg class="icon"><use href="#i-users"/></svg>Mã lớp: ART01</button></div>
+          <div class="page-header"><div><p class="eyebrow">HỌC CÙNG NHAU</p><h1>Lớp Mỹ thuật 01 · mô phỏng</h1><p class="page-description">Minh họa cách tổ chức lớp học và giao bài trên ArtCanva.</p></div><button class="button button-primary" data-action="copy-class-code"><svg class="icon"><use href="#i-users"/></svg>Mã lớp: ART01</button></div>
+          <div class="demo-note"><svg class="icon"><use href="#i-info"/></svg><p>Đây là dữ liệu minh họa. Bản web hiện tại chưa kết nối tài khoản giảng viên, lớp học thật hoặc hệ thống chấm điểm.</p></div>
           <div class="classroom-grid"><section class="card-panel assignments-card"><div class="panel-heading"><div><h3>Bài tập đang mở</h3><p>2 bài tập cần hoàn thành</p></div><button class="icon-button" data-action="open-assistant" aria-label="Hỏi Nova"><svg class="icon"><use href="#i-sparkles"/></svg></button></div><button class="assignment-row" data-action="continue-lesson"><span class="assignment-icon purple"><svg class="icon"><use href="#i-pen"/></svg></span><span><strong>Bố cục & điểm nhấn</strong><small>Giao bởi cô Lan · Hạn 28/11</small></span><span class="assignment-status">Đang làm</span><svg class="icon"><use href="#i-chevron-right"/></svg></button><button class="assignment-row" data-action="start-challenge"><span class="assignment-icon orange"><svg class="icon"><use href="#i-orbit"/></svg></span><span><strong>Thiên hà của riêng em</strong><small>Giao bởi cô Lan · Hạn 30/11</small></span><span class="assignment-status new">Bài mới</span><svg class="icon"><use href="#i-chevron-right"/></svg></button></section><section class="card-panel teacher-card"><span class="teacher-label">GIẢNG VIÊN HƯỚNG DẪN</span><div class="teacher-profile"><span class="avatar teacher-avatar">CL</span><div><h3>Cô Minh Lan</h3><p>Giảng viên Mỹ thuật ứng dụng</p></div></div><div class="teacher-note"><svg class="icon"><use href="#i-lightbulb"/></svg><p>“Hãy quan sát kỹ trước khi vẽ. Điều quan trọng không phải là vẽ giống, mà là nhìn thấy theo cách của riêng em.”</p></div><button class="button button-secondary full-width" data-action="open-assistant">Đặt câu hỏi về bài học<svg class="icon"><use href="#i-arrow"/></svg></button></section><section class="card-panel classmates-card"><div class="panel-heading"><h3>Tiến độ lớp học</h3><span class="soft-badge">21 học viên</span></div><div class="class-progress-ring"><span style="--progress:64%"><strong>64%</strong><small>Hoàn thành</small></span></div><p>Lớp học đang đi đúng lịch trình. Bạn đang ở nhóm 32% tiên phong.</p><div class="class-member-row"><span class="avatar avatar-a">MA</span><span class="avatar avatar-b">KH</span><span class="avatar avatar-c">LN</span><span class="avatar avatar-d">PT</span><span class="avatar avatar-more">+17</span></div></section><section class="card-panel rubric-card"><div class="panel-heading"><h3>Tiêu chí đánh giá</h3><span class="soft-badge">100 điểm</span></div><div class="rubric-list"><div><span>Kỹ thuật thực hiện</span><strong>30%</strong></div><div><span>Màu sắc & ánh sáng</span><strong>25%</strong></div><div><span>Bố cục</span><strong>25%</strong></div><div><span>Sáng tạo</span><strong>20%</strong></div></div></section></div>
         </section>
       </main>
@@ -1213,1117 +439,36 @@ kbd { padding: 3px 5px; border: 1px solid var(--line-strong); border-radius: 5px
   <button class="assistant-launcher" id="assistantLauncher" data-action="open-assistant" aria-label="Mở trợ lý Nova"><span class="launcher-orb"><svg class="icon"><use href="#i-sparkles"/></svg></span><span>Hỏi Nova</span><i></i></button>
 
   <aside class="assistant-panel" id="assistantPanel" aria-label="Trợ lý Nova" aria-hidden="true">
-    <div class="assistant-header"><div class="assistant-identity"><span class="nova-orb small"><svg class="icon"><use href="#i-sparkles"/></svg></span><div><strong>Nova</strong><small><span></span>Trợ lý học tập AI</small></div></div><button class="icon-button" data-action="close-assistant" aria-label="Đóng trợ lý"><svg class="icon"><use href="#i-x"/></svg></button></div>
-    <div class="assistant-messages" id="assistantMessages"><div class="message nova-message"><span class="message-avatar"><svg class="icon"><use href="#i-sparkles"/></svg></span><div><p>Xin chào Minh Anh! Mình là Nova, người bạn đồng hành trên hành trình nghệ thuật.</p><p>Bạn đang muốn học điều gì hôm nay?</p><div class="message-suggestions"><button data-prompt="Hướng dẫn mình bắt đầu vẽ">Bắt đầu vẽ</button><button data-prompt="Gợi ý bảng màu vũ trụ">Bảng màu vũ trụ</button><button data-prompt="Cách tạo điểm nhấn">Tạo điểm nhấn</button></div></div></div></div>
-    <form class="assistant-input" id="assistantForm"><input id="assistantInput" placeholder="Hỏi Nova bất cứ điều gì..." autocomplete="off" aria-label="Câu hỏi cho Nova"><button type="submit" aria-label="Gửi câu hỏi"><svg class="icon"><use href="#i-send"/></svg></button></form>
-    <div class="assistant-disclaimer">Nova có thể gợi ý sai. Hãy kiểm tra lại kiến thức quan trọng.</div>
+    <div class="assistant-header"><div class="assistant-identity"><span class="nova-orb small"><svg class="icon"><use href="#i-sparkles"/></svg></span><div><strong>Nova</strong><small><span></span>Gợi ý học tập theo chủ đề</small></div></div><button class="icon-button" data-action="close-assistant" aria-label="Đóng trợ lý"><svg class="icon"><use href="#i-x"/></svg></button></div>
+    <div class="assistant-messages" id="assistantMessages"><div class="message nova-message"><span class="message-avatar"><svg class="icon"><use href="#i-sparkles"/></svg></span><div><p id="initialNovaGreeting">Xin chào người bạn mới! Mình là Nova, người bạn đồng hành trên hành trình nghệ thuật.</p><p>Bạn đang muốn học điều gì hôm nay?</p><div class="message-suggestions"><button data-prompt="Hướng dẫn mình bắt đầu vẽ">Bắt đầu vẽ</button><button data-prompt="Gợi ý bảng màu vũ trụ">Bảng màu vũ trụ</button><button data-prompt="Cách tạo điểm nhấn">Tạo điểm nhấn</button></div></div></div></div>
+    <form class="assistant-input" id="assistantForm"><input id="assistantInput" placeholder="Hỏi về nét vẽ, màu sắc, bố cục..." autocomplete="off" aria-label="Câu hỏi cho Nova"><button type="submit" aria-label="Gửi câu hỏi"><svg class="icon"><use href="#i-send"/></svg></button></form>
+    <div class="assistant-disclaimer">Nova chọn gợi ý từ thư viện hướng dẫn có sẵn, không phải mô hình AI trực tuyến.</div>
   </aside>
 
   <div class="modal-backdrop" id="lessonModal" aria-hidden="true">
     <div class="modal lesson-modal" role="dialog" aria-modal="true" aria-labelledby="lessonModalTitle">
       <button class="modal-close icon-button" data-action="close-lesson" aria-label="Đóng"><svg class="icon"><use href="#i-x"/></svg></button>
       <div class="modal-art" id="lessonModalArt"><span class="modal-planet"></span><span class="modal-orbit"></span><svg class="icon"><use href="#i-sparkles"/></svg></div>
-      <div class="modal-content"><span class="status-label current" id="lessonModalStatus"><span></span>BÀI HỌC CƠ BẢN</span><h2 id="lessonModalTitle">Bố cục & điểm nhấn</h2><p id="lessonModalDescription">Học cách đặt vật thể, tạo điểm nhấn và dẫn mắt người xem.</p><div class="modal-lesson-meta"><span><svg class="icon"><use href="#i-clock"/></svg>18 phút</span><span><svg class="icon"><use href="#i-book"/></svg>5 bước</span><span><svg class="icon"><use href="#i-target"/></svg>Cơ bản</span></div><div class="lesson-outcomes"><strong>Bạn sẽ học được</strong><span><svg class="icon"><use href="#i-check"/></svg>Quy tắc 1/3 và tâm điểm</span><span><svg class="icon"><use href="#i-check"/></svg>Cách tạo khoảng trống cân bằng</span><span><svg class="icon"><use href="#i-check"/></svg>Sử dụng màu sắc để tạo điểm nhấn</span></div><button class="button button-primary full-width" id="startLessonButton">Bắt đầu bài học<svg class="icon"><use href="#i-arrow"/></svg></button><p class="modal-footnote">Tiến độ của bạn sẽ được lưu tự động.</p></div>
+      <div class="modal-content"><span class="status-label current" id="lessonModalStatus"><span></span>BÀI HỌC CƠ BẢN</span><h2 id="lessonModalTitle">Nét vẽ đầu tiên</h2><p id="lessonModalDescription">Làm quen với nét thẳng, nét cong và cách quan sát hình dáng trước khi vẽ.</p><div class="modal-lesson-meta"><span><svg class="icon"><use href="#i-clock"/></svg><span id="lessonModalDuration">45 phút</span></span><span><svg class="icon"><use href="#i-book"/></svg><span id="lessonModalSteps">4 bước</span></span><span><svg class="icon"><use href="#i-target"/></svg><span id="lessonModalLevel">Người mới</span></span></div><div class="lesson-outcomes" id="lessonOutcomes"><strong>Bạn sẽ học được</strong><span><svg class="icon"><use href="#i-check"/></svg>Quan sát và phác thảo nhẹ nhàng</span><span><svg class="icon"><use href="#i-check"/></svg>Vẽ nét thẳng, nét cong có kiểm soát</span></div><button class="button button-primary full-width" id="startLessonButton">Bắt đầu bài học<svg class="icon"><use href="#i-arrow"/></svg></button><p class="modal-footnote">Tiến độ của bạn sẽ được lưu trên trình duyệt này.</p></div>
     </div>
   </div>
 
-  <div class="modal-backdrop" id="settingsModal" aria-hidden="true"><div class="modal settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle"><button class="modal-close icon-button" data-action="close-settings" aria-label="Đóng"><svg class="icon"><use href="#i-x"/></svg></button><span class="settings-icon"><svg class="icon"><use href="#i-settings"/></svg></span><h2 id="settingsTitle">Cài đặt không gian học</h2><p>Điều chỉnh trải nghiệm ArtCanva theo cách của bạn.</p><label class="toggle-row"><span>Hiệu ứng chuyển động</span><input type="checkbox" id="motionToggle" checked><i></i></label><label class="toggle-row"><span>Gợi ý thông minh từ Nova</span><input type="checkbox" id="novaToggle" checked><i></i></label><label class="toggle-row"><span>Nhắc nhở học tập hằng ngày</span><input type="checkbox" id="reminderToggle" checked><i></i></label><button class="button button-primary full-width" data-action="close-settings">Lưu cài đặt<svg class="icon"><use href="#i-check"/></svg></button></div></div>
+  <div class="modal-backdrop" id="settingsModal" aria-hidden="true">
+    <div class="modal settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <button class="modal-close icon-button" data-action="close-settings" aria-label="Đóng"><svg class="icon"><use href="#i-x"/></svg></button>
+      <span class="settings-icon"><svg class="icon"><use href="#i-settings"/></svg></span>
+      <h2 id="settingsTitle">Cài đặt không gian học</h2>
+      <p>Điều chỉnh trải nghiệm ArtCanva theo cách của bạn.</p>
+      <label class="settings-field" for="profileNameInput">Tên hiển thị<input id="profileNameInput" type="text" maxlength="30" autocomplete="nickname" placeholder="Người bạn mới"></label>
+      <label class="toggle-row"><span>Hiệu ứng chuyển động</span><input type="checkbox" id="motionToggle" checked><i></i></label>
+      <label class="toggle-row"><span>Hiển thị gợi ý từ Nova</span><input type="checkbox" id="novaToggle" checked><i></i></label>
+      <label class="toggle-row"><span>Hiển thị thử thách hằng ngày</span><input type="checkbox" id="reminderToggle" checked><i></i></label>
+      <button class="button button-primary full-width" data-action="close-settings">Lưu cài đặt<svg class="icon"><use href="#i-check"/></svg></button>
+      <p class="settings-note">Tên, tiến độ và tác phẩm chỉ được lưu trên trình duyệt này.</p>
+    </div>
+  </div>
 
   <div class="toast-container" id="toastContainer" aria-live="polite"></div>
-  <script>
-const $ = (selector, root = document) => root.querySelector(selector);
-const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-const icon = (name, className = 'icon') => `<svg class="${className}" aria-hidden="true"><use href="#i-${name}"/></svg>`;
-
-const lessons = {
-  basics: {
-    title: 'Nét vẽ đầu tiên',
-    description: 'Làm quen với nét thẳng, nét cong, áp lực bút và cách quan sát hình dáng trước khi vẽ.',
-    duration: '45 phút',
-    steps: '4 bước',
-    level: 'Người mới',
-    status: 'BÀI HỌC CƠ BẢN',
-    file: 'net-ve-dau-tien.png',
-    guide: 'Hãy bắt đầu bằng những nét nhẹ, ngắn và tự nhiên.'
-  },
-  color: {
-    title: 'Vũ trụ màu sắc',
-    description: 'Khám phá vòng tròn màu, sắc độ và cách kết hợp màu để tạo cảm xúc cho tác phẩm.',
-    duration: '1 giờ',
-    steps: '5 bước',
-    level: 'Cơ bản',
-    status: 'HÀNH TINH MÀU SẮC',
-    file: 'vu-tru-mau-sac.png',
-    guide: 'Chọn một màu chính, sau đó thêm màu phụ và điểm nhấn.'
-  },
-  composition: {
-    title: 'Bố cục & điểm nhấn',
-    description: 'Học cách đặt vật thể, tạo điểm nhấn và dẫn mắt người xem qua không gian tranh.',
-    duration: '18 phút',
-    steps: '5 bước',
-    level: 'Cơ bản',
-    status: 'BÀI HỌC CƠ BẢN',
-    file: 'bo-cuc-diem-nhan.png',
-    guide: 'Hãy tạo điểm nhấn bằng màu sắc và vị trí đặt vật thể.'
-  },
-  perspective: {
-    title: 'Chiều sâu & phối cảnh',
-    description: 'Tìm hiểu điểm biến mất, tỷ lệ và cách tạo cảm giác chiều sâu trong tranh.',
-    duration: '1.25 giờ',
-    steps: '6 bước',
-    level: 'Trung cấp',
-    status: 'HÀNH TINH PHỐI CẢNH',
-    file: 'chieu-sau-phoi-canh.png',
-    guide: 'Dùng đường dẫn và điểm biến mất để xây dựng chiều sâu.'
-  }
-};
-
-let currentLesson = 'composition';
-let currentView = 'dashboard';
-let toastTimer = 0;
-
-function showToast(message, type = '') {
-  const container = $('#toastContainer');
-  container.innerHTML = '';
-  const toast = document.createElement('div');
-  toast.className = `toast ${type}`;
-  toast.innerHTML = icon(type === 'success' ? 'check' : 'sparkles');
-  const text = document.createElement('span');
-  text.textContent = message;
-  toast.appendChild(text);
-  container.appendChild(toast);
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => {
-    toast.classList.add('removing');
-    setTimeout(() => toast.remove(), 220);
-  }, 3200);
-}
-
-function navigate(view) {
-  const target = $(`#view-${view}`);
-  if (!target) return;
-  $$('.view').forEach(section => section.classList.remove('active'));
-  target.classList.add('active');
-  currentView = view;
-  $('#pageTitle').textContent = target.dataset.title;
-  $$('.nav-item[data-view]').forEach(item => item.classList.toggle('active', item.dataset.view === view));
-  closeSidebar();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  if (view === 'studio') requestAnimationFrame(positionOverlays);
-}
-
-function closeSidebar() {
-  $('#sidebar').classList.remove('show');
-  $('#sidebarBackdrop').classList.remove('show');
-}
-
-function openLesson(key) {
-  const lesson = lessons[key] || lessons.composition;
-  currentLesson = key in lessons ? key : 'composition';
-  $('#lessonModalTitle').textContent = lesson.title;
-  $('#lessonModalDescription').textContent = lesson.description;
-  $('#lessonModalStatus').innerHTML = `<span></span>${lesson.status}`;
-  const meta = $$('.modal-lesson-meta span');
-  meta[0].innerHTML = `${icon('clock')}${lesson.duration}`;
-  meta[1].innerHTML = `${icon('book')}${lesson.steps}`;
-  meta[2].innerHTML = `${icon('target')}${lesson.level}`;
-  $('#lessonModal').classList.add('show');
-  $('#lessonModal').setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
-  setTimeout(() => $('#startLessonButton').focus(), 50);
-}
-
-function closeLesson() {
-  $('#lessonModal').classList.remove('show');
-  $('#lessonModal').setAttribute('aria-hidden', 'true');
-  if (!$('.modal-backdrop.show')) document.body.style.overflow = '';
-}
-
-function setStudioLesson(key) {
-  const lesson = lessons[key] || lessons.composition;
-  $('#studioLessonTitle').textContent = lesson.title;
-  $('#studioLessonDescription').textContent = `Bài học · ${lesson.guide}`;
-  $('#canvasFileName').textContent = lesson.file;
-  const guideTitle = $('.lesson-guide-panel h3');
-  if (guideTitle) guideTitle.textContent = lesson.title;
-  const intro = $('.guide-intro');
-  if (intro) intro.textContent = lesson.guide;
-}
-
-function startLesson() {
-  closeLesson();
-  setStudioLesson(currentLesson);
-  navigate('studio');
-  showToast(`Đã mở bài “${lessons[currentLesson].title}”.`, 'success');
-}
-
-function openSettings() {
-  $('#settingsModal').classList.add('show');
-  $('#settingsModal').setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeSettings() {
-  $('#settingsModal').classList.remove('show');
-  $('#settingsModal').setAttribute('aria-hidden', 'true');
-  if (!$('.modal-backdrop.show')) document.body.style.overflow = '';
-  applyMotionSetting($('#motionToggle').checked);
-  showToast('Đã lưu cài đặt không gian học.', 'success');
-}
-
-function applyMotionSetting(enabled) {
-  document.body.classList.toggle('reduce-motion', !enabled);
-  try { localStorage.setItem('artcanvas-motion', String(enabled)); } catch (_) {}
-}
-
-function openAssistant() {
-  $('#assistantPanel').classList.add('show');
-  $('#assistantPanel').setAttribute('aria-hidden', 'false');
-  $('#assistantLauncher').style.opacity = '0';
-  $('#assistantLauncher').style.pointerEvents = 'none';
-  setTimeout(() => $('#assistantInput').focus(), 100);
-}
-
-function closeAssistant() {
-  $('#assistantPanel').classList.remove('show');
-  $('#assistantPanel').setAttribute('aria-hidden', 'true');
-  $('#assistantLauncher').style.opacity = '1';
-  $('#assistantLauncher').style.pointerEvents = 'auto';
-}
-
-function appendNovaMessage(text) {
-  const message = document.createElement('div');
-  message.className = 'message nova-message';
-  message.innerHTML = `<span class="message-avatar">${icon('sparkles')}</span>`;
-  const content = document.createElement('div');
-  const paragraph = document.createElement('p');
-  paragraph.textContent = text;
-  content.appendChild(paragraph);
-  message.appendChild(content);
-  $('#assistantMessages').appendChild(message);
-  $('#assistantMessages').scrollTop = $('#assistantMessages').scrollHeight;
-}
-
-function novaResponse(question) {
-  const text = question.toLowerCase();
-  if (/mới|bắt đầu|học gì|kiến thức/.test(text)) {
-    return 'Với người mới, bạn nên bắt đầu bằng quan sát hình khối, nét thẳng và nét cong. Sau đó hãy học bố cục trước khi đến màu sắc. Mình gợi ý thử bài “Nét vẽ đầu tiên”: vẽ 10 đường thẳng, 10 đường cong và một quả táo chỉ bằng nét phác nhẹ.';
-  }
-  if (/màu|bảng màu|pha màu/.test(text)) {
-    return 'Bạn có thể thử bảng màu “Sao đêm”: tím đậm #17152F, tím #6D52D9, oải hương #B6A4FF, cyan #8DEBFF và vàng sao #FFD18A. Dùng tím đậm làm nền, cyan cho chi tiết xa và vàng sao làm điểm nhấn. Một màu chính nên chiếm khoảng 60% tác phẩm.';
-  }
-  if (/bố cục|điểm nhấn|cân bằng|trung tâm/.test(text)) {
-    return 'Thử quy tắc 1/3: chia tranh thành 9 ô bằng hai đường ngang và hai đường dọc. Đặt chủ thể ở giao điểm thay vì chính giữa, rồi để lại khoảng trống phía ngược với chủ thể. Một vùng tương phản mạnh sẽ trở thành điểm nhấn tự nhiên.';
-  }
-  if (/lớp|layer/.test(text)) {
-    return 'Lớp vẽ giống các tờ giấy trong suốt chồng lên nhau. Bạn nên tách “Nền”, “Phác thảo” và “Màu sắc”. Khi cần sửa màu, hãy chọn đúng lớp chứa màu đó; nhấn biểu tượng con mắt để tạm ẩn và kiểm tra từng phần.';
-  }
-  if (/công cụ|canvas|bút|cọ|tẩy/.test(text)) {
-    return 'Trong phòng vẽ, bạn có cọ vẽ, bút chì, tẩy, đường thẳng, hình chữ nhật, hình tròn, đổ màu và lấy màu. Người mới nên dùng bút chì để phác thảo, cọ cỡ nhỏ cho chi tiết và tẩy để làm sáng. Phím tắt: B là cọ, E là tẩy, P là bút chì.';
-  }
-  if (/nét|phác|đường/.test(text)) {
-    return 'Khi phác thảo, hãy vẽ từ vai chứ không chỉ từ cổ tay, giữ nét nhẹ và dài. Quan sát tổng thể trước, chỉnh chiều dài và góc của hình rồi mới thêm chi tiết. Đừng xóa ngay một nét chưa đúng — hãy vẽ thêm nét điều chỉnh để hình rõ hơn.';
-  }
-  if (/thử thách|hành tinh|bài học/.test(text)) {
-    return 'Thử thách hôm nay là “Vẽ hành tinh của riêng bạn”. Chọn ba màu bạn yêu thích, tạo một hình tròn làm hành tinh và thêm vành hoặc các vệ tinh. Bạn có 15 phút và nhận 150 XP khi hoàn thành.';
-  }
-  return 'Mình có thể giúp bạn về nét vẽ, màu sắc, bố cục, lớp tranh hoặc cách dùng công cụ. Bạn hãy mô tả điều đang vướng mắc, ví dụ: “Mình không biết làm sao để bức tranh không bị lệch”, và mình sẽ gợi ý từng bước.';
-}
-
-function askNova(question) {
-  const text = question.trim();
-  if (!text) return;
-  const userMessage = document.createElement('div');
-  userMessage.className = 'message user-message';
-  const bubble = document.createElement('div');
-  bubble.textContent = text;
-  userMessage.appendChild(bubble);
-  $('#assistantMessages').appendChild(userMessage);
-  $('#assistantMessages').scrollTop = $('#assistantMessages').scrollHeight;
-  $('#assistantInput').value = '';
-  setTimeout(() => appendNovaMessage(novaResponse(text)), 420);
-}
-
-function initSearch() {
-  const entries = [
-    { title: 'Nét vẽ đầu tiên', type: 'lesson', key: 'basics', icon: 'book' },
-    { title: 'Vũ trụ màu sắc', type: 'lesson', key: 'color', icon: 'palette' },
-    { title: 'Bố cục & điểm nhấn', type: 'lesson', key: 'composition', icon: 'pen' },
-    { title: 'Chiều sâu & phối cảnh', type: 'lesson', key: 'perspective', icon: 'layers' },
-    { title: 'Không gian vẽ', type: 'view', key: 'studio', icon: 'pen' },
-    { title: 'Bộ sưu tập tác phẩm', type: 'view', key: 'gallery', icon: 'image' },
-    { title: 'Tiến độ của tôi', type: 'view', key: 'progress', icon: 'chart' },
-    { title: 'Lớp Mỹ thuật 01', type: 'view', key: 'classroom', icon: 'users' }
-  ];
-  const input = $('#globalSearch');
-  const results = $('#searchResults');
-  input.addEventListener('input', () => {
-    const query = input.value.trim().toLowerCase();
-    results.innerHTML = '';
-    if (!query) {
-      results.classList.remove('show');
-      return;
-    }
-    const matches = entries.filter(entry => entry.title.toLowerCase().includes(query)).slice(0, 5);
-    if (!matches.length) {
-      results.innerHTML = '<div class="search-empty">Không tìm thấy kết quả phù hợp.</div>';
-    } else {
-      matches.forEach(entry => {
-        const button = document.createElement('button');
-        button.className = 'search-result';
-        button.innerHTML = icon(entry.icon);
-        const label = document.createElement('span');
-        label.textContent = entry.title;
-        button.appendChild(label);
-        button.addEventListener('click', () => {
-          results.classList.remove('show');
-          input.value = '';
-          if (entry.type === 'lesson') openLesson(entry.key);
-          else navigate(entry.key);
-        });
-        results.appendChild(button);
-      });
-    }
-    results.classList.add('show');
-  });
-  document.addEventListener('click', event => {
-    if (!event.target.closest('.global-search')) results.classList.remove('show');
-  });
-}
-
-const canvas = $('#artCanvas');
-const ctx = canvas.getContext('2d', { willReadFrequently: true });
-let layers = [];
-let activeLayerIndex = 1;
-let currentTool = 'brush';
-let currentColor = '#7c5cfc';
-let brushSize = 12;
-let brushOpacity = 1;
-let zoom = 1;
-let drawing = false;
-let startPoint = null;
-let lastPoint = null;
-let shapeSnapshot = null;
-let restoring = false;
-let restoreToken = 0;
-let historyStates = [];
-let historyIndex = -1;
-let autosaveTimer = 0;
-
-function makeLayer(name, locked = false) {
-  const layerCanvas = document.createElement('canvas');
-  layerCanvas.width = canvas.width;
-  layerCanvas.height = canvas.height;
-  return {
-    name,
-    locked,
-    visible: true,
-    opacity: 1,
-    canvas: layerCanvas,
-    ctx: layerCanvas.getContext('2d', { willReadFrequently: true })
-  };
-}
-
-function composite() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = '#f8f5ef';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  layers.forEach(layer => {
-    if (!layer.visible) return;
-    ctx.save();
-    ctx.globalAlpha = layer.opacity;
-    ctx.drawImage(layer.canvas, 0, 0);
-    ctx.restore();
-  });
-}
-
-function drawStarter() {
-  const background = layers[0];
-  const c = background.ctx;
-  const gradient = c.createLinearGradient(0, 0, 1000, 700);
-  gradient.addColorStop(0, '#f7f0e8');
-  gradient.addColorStop(.55, '#eee7f8');
-  gradient.addColorStop(1, '#dce9f0');
-  c.fillStyle = gradient;
-  c.fillRect(0, 0, 1000, 700);
-  c.fillStyle = '#f4bd78';
-  c.beginPath();
-  c.arc(770, 145, 83, 0, Math.PI * 2);
-  c.fill();
-  c.fillStyle = 'rgba(137, 111, 189, .09)';
-  c.beginPath();
-  c.moveTo(0, 520);
-  c.bezierCurveTo(180, 420, 280, 510, 430, 465);
-  c.bezierCurveTo(650, 400, 800, 475, 1000, 380);
-  c.lineTo(1000, 700);
-  c.lineTo(0, 700);
-  c.closePath();
-  c.fill();
-  c.strokeStyle = 'rgba(104, 79, 160, .25)';
-  c.lineWidth = 4;
-  c.lineCap = 'round';
-  c.lineJoin = 'round';
-  c.beginPath();
-  c.moveTo(423, 262);
-  c.lineTo(575, 262);
-  c.lineTo(596, 311);
-  c.bezierCurveTo(632, 370, 640, 457, 621, 503);
-  c.bezierCurveTo(604, 544, 392, 544, 375, 503);
-  c.bezierCurveTo(356, 457, 364, 370, 402, 311);
-  c.closePath();
-  c.stroke();
-  c.beginPath();
-  c.ellipse(499, 263, 76, 16, 0, 0, Math.PI * 2);
-  c.stroke();
-  c.beginPath();
-  c.moveTo(499, 245);
-  c.lineTo(499, 133);
-  c.moveTo(499, 201);
-  c.bezierCurveTo(441, 197, 408, 161, 405, 113);
-  c.bezierCurveTo(465, 112, 496, 146, 499, 201);
-  c.moveTo(499, 176);
-  c.bezierCurveTo(549, 171, 583, 139, 586, 95);
-  c.bezierCurveTo(534, 96, 502, 126, 499, 176);
-  c.stroke();
-  c.fillStyle = '#df8c80';
-  c.beginPath();
-  c.ellipse(329, 510, 47, 30, -.18, 0, Math.PI * 2);
-  c.fill();
-  c.fillStyle = '#8ab6a5';
-  c.beginPath();
-  c.arc(675, 512, 39, 0, Math.PI * 2);
-  c.fill();
-  c.strokeStyle = 'rgba(98, 76, 143, .17)';
-  c.lineWidth = 2;
-  c.beginPath();
-  c.moveTo(236, 551);
-  c.lineTo(764, 551);
-  c.stroke();
-}
-
-function captureState() {
-  return layers.map(layer => layer.canvas.toDataURL('image/png'));
-}
-
-function loadImage(source) {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.onload = () => resolve(image);
-    image.onerror = reject;
-    image.src = source;
-  });
-}
-
-async function restoreState(state) {
-  if (!state || restoring) return;
-  restoring = true;
-  const token = ++restoreToken;
-  try {
-    const images = await Promise.all(state.map(loadImage));
-    if (token !== restoreToken) return;
-    images.forEach((image, index) => {
-      const layer = layers[index];
-      if (!layer) return;
-      layer.ctx.clearRect(0, 0, canvas.width, canvas.height);
-      layer.ctx.drawImage(image, 0, 0);
-    });
-    composite();
-    renderLayers();
-    updateHistoryButtons();
-  } finally {
-    if (token === restoreToken) restoring = false;
-  }
-}
-
-function resetHistory() {
-  historyStates = [captureState()];
-  historyIndex = 0;
-  updateHistoryButtons();
-}
-
-function pushHistory() {
-  if (restoring) return;
-  historyStates = historyStates.slice(0, historyIndex + 1);
-  historyStates.push(captureState());
-  if (historyStates.length > 25) historyStates.shift();
-  historyIndex = historyStates.length - 1;
-  updateHistoryButtons();
-  scheduleAutosave();
-}
-
-function updateHistoryButtons() {
-  const undo = $('[data-action="undo"]');
-  const redo = $('[data-action="redo"]');
-  if (undo) undo.disabled = historyIndex <= 0 || restoring;
-  if (redo) redo.disabled = historyIndex >= historyStates.length - 1 || restoring;
-}
-
-function undo() {
-  if (historyIndex > 0 && !restoring) {
-    historyIndex--;
-    restoreState(historyStates[historyIndex]);
-  }
-}
-
-function redo() {
-  if (historyIndex < historyStates.length - 1 && !restoring) {
-    historyIndex++;
-    restoreState(historyStates[historyIndex]);
-  }
-}
-
-function scheduleAutosave() {
-  const state = $('#autosaveState');
-  if (state) state.innerHTML = '<span></span>Đang lưu...';
-  clearTimeout(autosaveTimer);
-  autosaveTimer = setTimeout(() => saveProject(true), 1000);
-}
-
-function saveProject(silent = false) {
-  try {
-    localStorage.setItem('artcanvas-project', JSON.stringify({
-      layers: layers.map(layer => ({ name: layer.name, locked: layer.locked, visible: layer.visible, opacity: layer.opacity, data: layer.canvas.toDataURL('image/png') })),
-      activeLayerIndex,
-      savedAt: Date.now()
-    }));
-    const state = $('#autosaveState');
-    if (state) state.innerHTML = '<span></span>Đã lưu trên thiết bị';
-    if (!silent) showToast('Tác phẩm đã được lưu trên trình duyệt này.', 'success');
-  } catch (_) {
-    if (!silent) showToast('Không thể lưu do dung lượng trình duyệt đã đầy.');
-  }
-}
-
-async function loadProject() {
-  let saved = null;
-  try { saved = JSON.parse(localStorage.getItem('artcanvas-project') || 'null'); } catch (_) {}
-  if (saved && Array.isArray(saved.layers) && saved.layers.length) {
-    for (let index = 0; index < saved.layers.length; index++) {
-      const data = saved.layers[index];
-      if (!layers[index]) layers[index] = makeLayer(data.name || `Lớp ${index + 1}`, Boolean(data.locked));
-      layers[index].name = data.name || `Lớp ${index + 1}`;
-      layers[index].locked = Boolean(data.locked);
-      layers[index].visible = data.visible !== false;
-      layers[index].opacity = Number(data.opacity) || 1;
-      if (data.data) {
-        try {
-          const image = await loadImage(data.data);
-          layers[index].ctx.drawImage(image, 0, 0);
-        } catch (_) {}
-      }
-    }
-    activeLayerIndex = Math.min(saved.activeLayerIndex ?? 1, layers.length - 1);
-    if (layers[activeLayerIndex]?.locked || !layers[activeLayerIndex]?.visible) {
-      activeLayerIndex = layers.findIndex(layer => !layer.locked && layer.visible);
-      if (activeLayerIndex < 0) activeLayerIndex = 0;
-    }
-  } else {
-    drawStarter();
-  }
-  composite();
-  renderLayers();
-  resetHistory();
-}
-
-function renderLayers() {
-  const list = $('#layersList');
-  list.innerHTML = '';
-  [...layers].reverse().forEach(layer => {
-    const index = layers.indexOf(layer);
-    const row = document.createElement('div');
-    row.className = `layer-row ${index === activeLayerIndex ? 'active' : ''}`;
-    row.dataset.layerIndex = index;
-    row.innerHTML = `
-      <button class="layer-visibility" data-layer-visibility="${index}" aria-label="${layer.visible ? 'Ẩn' : 'Hiện'} lớp">${icon(layer.visible ? 'eye' : 'eye-off')}</button>
-      <button class="layer-select" data-layer-select="${index}"><span class="layer-thumb"><i></i></span><span class="layer-name"></span></button>
-      ${layer.locked ? `<span class="layer-lock">${icon('lock')}</span>` : '<span style="width:11px"></span>'}
-    `;
-    $('.layer-name', row).textContent = layer.name;
-    list.appendChild(row);
-  });
-  const active = layers[activeLayerIndex];
-  $('#activeLayerLabel').textContent = `Đang vẽ trên ${active?.name || 'Lớp mới'}`;
-}
-
-function selectLayer(index) {
-  const layer = layers[index];
-  if (!layer || layer.locked) {
-    showToast('Lớp nền đang được khóa. Hãy chọn một lớp khác để vẽ.');
-    return;
-  }
-  if (!layer.visible) layer.visible = true;
-  activeLayerIndex = index;
-  renderLayers();
-}
-
-function addLayer() {
-  if (layers.length >= 6) {
-    showToast('Bản demo hỗ trợ tối đa 6 lớp.');
-    return;
-  }
-  layers.push(makeLayer(`Lớp ${layers.length + 1}`));
-  activeLayerIndex = layers.length - 1;
-  renderLayers();
-  pushHistory();
-  showToast('Đã thêm một lớp vẽ mới.', 'success');
-}
-
-function clearActiveLayer() {
-  const layer = layers[activeLayerIndex];
-  if (!layer || layer.locked) {
-    showToast('Không thể xóa lớp nền đang khóa.');
-    return;
-  }
-  layer.ctx.clearRect(0, 0, canvas.width, canvas.height);
-  composite();
-  pushHistory();
-  showToast('Đã xóa nội dung lớp đang chọn.', 'success');
-}
-
-function setTool(tool) {
-  currentTool = tool;
-  $$('.tool-button').forEach(button => button.classList.toggle('active', button.dataset.tool === tool));
-  const cursors = { brush: 'crosshair', pencil: 'crosshair', eraser: 'cell', line: 'crosshair', rectangle: 'crosshair', circle: 'crosshair', fill: 'cell', eyedropper: 'copy', hand: 'grab' };
-  canvas.style.cursor = cursors[tool] || 'crosshair';
-}
-
-function setColor(color) {
-  currentColor = color.toLowerCase();
-  $('#colorPicker').value = currentColor;
-  $('#hexValue').textContent = currentColor.toUpperCase();
-  $('#brushPreview').style.background = currentColor;
-  $$('#paletteLarge button').forEach(button => button.classList.toggle('active', button.dataset.color.toLowerCase() === currentColor));
-}
-
-function initPalette() {
-  const colors = ['#17152f', '#3a2a6a', '#6d52d9', '#9c85ff', '#d8cbff', '#8debff', '#4cb9d4', '#79c9a6', '#f4d38b', '#f4a261', '#ef7f7a', '#d76da8', '#f8f5ef', '#55536b', '#ffffff'];
-  const palette = $('#paletteLarge');
-  colors.forEach(color => {
-    const button = document.createElement('button');
-    button.style.background = color;
-    button.dataset.color = color;
-    button.title = color.toUpperCase();
-    button.setAttribute('aria-label', `Chọn màu ${color}`);
-    button.addEventListener('click', () => setColor(color));
-    palette.appendChild(button);
-  });
-  setColor(currentColor);
-}
-
-function updateBrushPreview() {
-  const preview = $('#brushPreview');
-  const size = Math.max(3, Math.min(30, brushSize * .55));
-  preview.style.width = `${size}px`;
-  preview.style.height = `${size}px`;
-  preview.style.opacity = brushOpacity;
-}
-
-function getCanvasPoint(event) {
-  const rect = canvas.getBoundingClientRect();
-  return {
-    x: (event.clientX - rect.left) * (canvas.width / rect.width),
-    y: (event.clientY - rect.top) * (canvas.height / rect.height)
-  };
-}
-
-function configureStroke(context, tool = currentTool, size = brushSize) {
-  context.save();
-  context.lineCap = 'round';
-  context.lineJoin = 'round';
-  context.strokeStyle = currentColor;
-  context.fillStyle = currentColor;
-  context.lineWidth = tool === 'pencil' ? Math.max(1, size * .42) : tool === 'eraser' ? size * 1.35 : size;
-  context.globalAlpha = tool === 'pencil' ? brushOpacity * .5 : brushOpacity;
-  context.globalCompositeOperation = tool === 'eraser' ? 'destination-out' : 'source-over';
-  return context;
-}
-
-function drawMirroredLine(context, from, to, tool, size) {
-  configureStroke(context, tool, size);
-  context.beginPath();
-  context.moveTo(from.x, from.y);
-  context.lineTo(to.x, to.y);
-  context.stroke();
-  if ($('#symmetryToggle').checked) {
-    context.beginPath();
-    context.moveTo(canvas.width - from.x, from.y);
-    context.lineTo(canvas.width - to.x, to.y);
-    context.stroke();
-  }
-  context.restore();
-}
-
-function drawShape(context, from, to, tool) {
-  configureStroke(context, tool);
-  context.beginPath();
-  if (tool === 'line') {
-    context.moveTo(from.x, from.y);
-    context.lineTo(to.x, to.y);
-  } else if (tool === 'rectangle') {
-    context.rect(from.x, from.y, to.x - from.x, to.y - from.y);
-  } else if (tool === 'circle') {
-    context.arc(from.x, from.y, Math.hypot(to.x - from.x, to.y - from.y), 0, Math.PI * 2);
-  }
-  context.stroke();
-  if ($('#symmetryToggle').checked && tool !== 'line') {
-    const mirrored = canvas.width - from.x;
-    const mirroredTo = canvas.width - to.x;
-    context.beginPath();
-    if (tool === 'rectangle') context.rect(mirrored, from.y, mirroredTo - mirrored, to.y - from.y);
-    else context.arc(mirrored, from.y, Math.hypot(to.x - from.x, to.y - from.y), 0, Math.PI * 2);
-    context.stroke();
-  }
-  context.restore();
-}
-
-function hexToRgb(hex) {
-  const value = hex.replace('#', '');
-  return { r: parseInt(value.slice(0, 2), 16), g: parseInt(value.slice(2, 4), 16), b: parseInt(value.slice(4, 6), 16), a: 255 };
-}
-
-function floodFill(x, y) {
-  const layer = layers[activeLayerIndex];
-  if (!layer || layer.locked) return;
-  x = Math.max(0, Math.min(canvas.width - 1, Math.floor(x)));
-  y = Math.max(0, Math.min(canvas.height - 1, Math.floor(y)));
-  const image = layer.ctx.getImageData(0, 0, canvas.width, canvas.height);
-  const data = image.data;
-  const start = (y * canvas.width + x) * 4;
-  const target = [data[start], data[start + 1], data[start + 2], data[start + 3]];
-  const fill = hexToRgb(currentColor);
-  const tolerance = 72;
-  const matches = index => Math.abs(data[index] - target[0]) + Math.abs(data[index + 1] - target[1]) + Math.abs(data[index + 2] - target[2]) + Math.abs(data[index + 3] - target[3]) <= tolerance;
-  if (target[0] === fill.r && target[1] === fill.g && target[2] === fill.b && target[3] === fill.a) return;
-  const visited = new Uint8Array(canvas.width * canvas.height);
-  const stack = [y * canvas.width + x];
-  visited[stack[0]] = 1;
-  while (stack.length) {
-    const pixel = stack.pop();
-    const px = pixel % canvas.width;
-    const py = Math.floor(pixel / canvas.width);
-    const index = pixel * 4;
-    if (!matches(index)) continue;
-    data[index] = fill.r;
-    data[index + 1] = fill.g;
-    data[index + 2] = fill.b;
-    data[index + 3] = fill.a;
-    const neighbors = [];
-    if (px > 0) neighbors.push(pixel - 1);
-    if (px < canvas.width - 1) neighbors.push(pixel + 1);
-    if (py > 0) neighbors.push(pixel - canvas.width);
-    if (py < canvas.height - 1) neighbors.push(pixel + canvas.width);
-    neighbors.forEach(next => {
-      if (!visited[next]) {
-        visited[next] = 1;
-        stack.push(next);
-      }
-    });
-  }
-  layer.ctx.putImageData(image, 0, 0);
-}
-
-function sampleColor(x, y) {
-  const pixel = ctx.getImageData(Math.max(0, Math.min(canvas.width - 1, Math.floor(x))), Math.max(0, Math.min(canvas.height - 1, Math.floor(y))), 1, 1).data;
-  const hex = `#${[pixel[0], pixel[1], pixel[2]].map(value => value.toString(16).padStart(2, '0')).join('')}`;
-  setColor(hex);
-  setTool('brush');
-  showToast(`Đã lấy màu ${hex.toUpperCase()}.`, 'success');
-}
-
-function beginDrawing(event) {
-  if (restoring || (event.pointerType === 'mouse' && event.button !== 0)) return;
-  const layer = layers[activeLayerIndex];
-  if (!layer || layer.locked) {
-    showToast('Hãy chọn một lớp chưa khóa để vẽ.');
-    return;
-  }
-  const point = getCanvasPoint(event);
-  if (currentTool === 'eyedropper') {
-    sampleColor(point.x, point.y);
-    return;
-  }
-  if (currentTool === 'fill') {
-    floodFill(point.x, point.y);
-    composite();
-    pushHistory();
-    return;
-  }
-  if (currentTool === 'hand') {
-    drawing = true;
-    startPoint = { x: event.clientX, y: event.clientY, scrollLeft: $('#canvasStage').scrollLeft, scrollTop: $('#canvasStage').scrollTop };
-    canvas.style.cursor = 'grabbing';
-    canvas.setPointerCapture(event.pointerId);
-    return;
-  }
-  drawing = true;
-  startPoint = point;
-  lastPoint = point;
-  $('#canvasHint').style.display = 'none';
-  if (['line', 'rectangle', 'circle'].includes(currentTool)) {
-    shapeSnapshot = layer.ctx.getImageData(0, 0, canvas.width, canvas.height);
-  } else {
-    drawMirroredLine(layer.ctx, point, { x: point.x + .01, y: point.y + .01 }, currentTool, brushSize);
-    composite();
-  }
-  canvas.setPointerCapture(event.pointerId);
-  event.preventDefault();
-}
-
-function moveDrawing(event) {
-  if (!drawing || restoring) return;
-  const layer = layers[activeLayerIndex];
-  if (currentTool === 'hand') {
-    const stage = $('#canvasStage');
-    stage.scrollLeft = startPoint.scrollLeft - (event.clientX - startPoint.x);
-    stage.scrollTop = startPoint.scrollTop - (event.clientY - startPoint.y);
-    positionOverlays();
-    return;
-  }
-  const point = getCanvasPoint(event);
-  if (['line', 'rectangle', 'circle'].includes(currentTool)) {
-    layer.ctx.putImageData(shapeSnapshot, 0, 0);
-    drawShape(layer.ctx, startPoint, point, currentTool);
-  } else {
-    drawMirroredLine(layer.ctx, lastPoint, point, currentTool, brushSize);
-  }
-  lastPoint = point;
-  composite();
-  event.preventDefault();
-}
-
-function endDrawing(event) {
-  if (!drawing) return;
-  drawing = false;
-  shapeSnapshot = null;
-  startPoint = null;
-  lastPoint = null;
-  if (currentTool === 'hand') canvas.style.cursor = 'grab';
-  if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
-  pushHistory();
-}
-
-function positionOverlays() {
-  if (!canvas.getBoundingClientRect().width) return;
-  const canvasRect = canvas.getBoundingClientRect();
-  const stageRect = $('#canvasStage').getBoundingClientRect();
-  const left = canvasRect.left - stageRect.left + $('#canvasStage').scrollLeft;
-  const top = canvasRect.top - stageRect.top + $('#canvasStage').scrollTop;
-  ['#canvasGrid', '#referenceGuide', '#symmetryGuide'].forEach(selector => {
-    const element = $(selector);
-    element.style.left = `${left}px`;
-    element.style.top = `${top}px`;
-    element.style.width = `${canvasRect.width}px`;
-    element.style.height = `${canvasRect.height}px`;
-  });
-}
-
-function setZoom(value) {
-  zoom = Math.max(.5, Math.min(2, value));
-  canvas.style.transform = `scale(${zoom})`;
-  $('#zoomValue').textContent = `${Math.round(zoom * 100)}%`;
-  requestAnimationFrame(positionOverlays);
-}
-
-function exportArt() {
-  composite();
-  const link = document.createElement('a');
-  link.download = $('#canvasFileName').textContent || 'artcanvas.png';
-  link.href = canvas.toDataURL('image/png');
-  link.click();
-  showToast('Đã xuất tác phẩm dưới dạng PNG.', 'success');
-}
-
-function initCanvas() {
-  layers = [makeLayer('Nền', true), makeLayer('Phác thảo'), makeLayer('Màu sắc')];
-  canvas.addEventListener('pointerdown', beginDrawing);
-  canvas.addEventListener('pointermove', moveDrawing);
-  canvas.addEventListener('pointerup', endDrawing);
-  canvas.addEventListener('pointercancel', endDrawing);
-  canvas.addEventListener('contextmenu', event => event.preventDefault());
-  $('#canvasStage').addEventListener('scroll', positionOverlays);
-  window.addEventListener('resize', () => requestAnimationFrame(positionOverlays));
-  loadProject();
-}
-
-function initToolPanel() {
-  initPalette();
-  $$('.tool-button').forEach(button => button.addEventListener('click', () => setTool(button.dataset.tool)));
-  $$('.tool-tab').forEach(button => button.addEventListener('click', () => {
-    $$('.tool-tab').forEach(tab => tab.classList.toggle('active', tab === button));
-    $$('.tool-tab-content').forEach(panel => panel.classList.toggle('active', panel.dataset.toolPanel === button.dataset.toolTab));
-  }));
-  $('#brushSize').addEventListener('input', event => {
-    brushSize = Number(event.target.value);
-    $('#brushSizeValue').textContent = `${brushSize} px`;
-    updateBrushPreview();
-  });
-  $('#brushOpacity').addEventListener('input', event => {
-    brushOpacity = Number(event.target.value) / 100;
-    $('#brushOpacityValue').textContent = `${event.target.value}%`;
-    updateBrushPreview();
-  });
-  $('#colorPicker').addEventListener('input', event => setColor(event.target.value));
-  $('#gridToggle').addEventListener('change', event => {
-    $('#canvasGrid').classList.toggle('show', event.target.checked);
-    positionOverlays();
-  });
-  $('#referenceToggle').addEventListener('change', event => {
-    $('#referenceGuide').classList.toggle('show', event.target.checked);
-    positionOverlays();
-  });
-  $('#symmetryToggle').addEventListener('change', event => {
-    $('#symmetryGuide').classList.toggle('show', event.target.checked);
-    positionOverlays();
-  });
-  $('#layersList').addEventListener('click', event => {
-    const visibility = event.target.closest('[data-layer-visibility]');
-    if (visibility) {
-      const index = Number(visibility.dataset.layerVisibility);
-      layers[index].visible = !layers[index].visible;
-      if (index === activeLayerIndex && !layers[index].visible) {
-        const next = layers.findIndex(layer => layer.visible && !layer.locked);
-        activeLayerIndex = next >= 0 ? next : 0;
-      }
-      renderLayers();
-      composite();
-      pushHistory();
-      return;
-    }
-    const select = event.target.closest('[data-layer-select]');
-    if (select) selectLayer(Number(select.dataset.layerSelect));
-  });
-  updateBrushPreview();
-  $('#referenceGuide').classList.add('show');
-  setTool('brush');
-}
-
-function initGallery() {
-  $('#galleryGrid').addEventListener('click', event => {
-    const button = event.target.closest('[data-action="favorite"]');
-    if (!button) return;
-    const card = button.closest('.art-card');
-    const favorite = card.dataset.favorite !== 'true';
-    card.dataset.favorite = String(favorite);
-    button.classList.toggle('active', favorite);
-    button.setAttribute('aria-label', favorite ? 'Bỏ yêu thích' : 'Yêu thích');
-    showToast(favorite ? 'Đã thêm vào bộ sưu tập yêu thích.' : 'Đã bỏ khỏi danh sách yêu thích.', 'success');
-    applyGalleryFilter($('.filter-chip[data-gallery-filter].active')?.dataset.galleryFilter || 'all');
-  });
-  $$('[data-gallery-filter]').forEach(button => button.addEventListener('click', () => {
-    $$('[data-gallery-filter]').forEach(chip => chip.classList.toggle('active', chip === button));
-    applyGalleryFilter(button.dataset.galleryFilter);
-  }));
-  $('#artUpload').addEventListener('change', event => {
-    const file = event.target.files[0];
-    if (!file) return;
-    if (!file.type.startsWith('image/')) {
-      showToast('Vui lòng chọn một tệp ảnh.');
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => {
-      const card = document.createElement('article');
-      card.className = 'art-card';
-      card.dataset.owner = 'mine';
-      card.dataset.favorite = 'false';
-      card.innerHTML = `<div class="art-image uploaded-art"><img alt="Tác phẩm tải lên"></div><div class="art-info"><div><strong>Tác phẩm mới</strong><small>Vừa tải lên · Hôm nay</small></div><button class="icon-button favorite" data-action="favorite" aria-label="Yêu thích">${icon('star')}</button></div>`;
-      $('img', card).src = reader.result;
-      $('#galleryGrid').prepend(card);
-      $('#galleryCount').textContent = `${$$('.art-card').length} tác phẩm`;
-      showToast('Đã thêm tác phẩm vào bộ sưu tập.', 'success');
-      event.target.value = '';
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
-function applyGalleryFilter(filter) {
-  let count = 0;
-  $$('.art-card').forEach(card => {
-    const show = filter === 'all' || (filter === 'mine' && card.dataset.owner === 'mine') || (filter === 'favorite' && card.dataset.favorite === 'true');
-    card.style.display = show ? '' : 'none';
-    if (show) count++;
-  });
-  $('#galleryCount').textContent = `${count} tác phẩm`;
-}
-
-function initLearningFilters() {
-  $$('[data-filter]').forEach(button => button.addEventListener('click', () => {
-    $$('[data-filter]').forEach(chip => chip.classList.toggle('active', chip === button));
-    const filter = button.dataset.filter;
-    $$('.learning-module').forEach(module => {
-      module.style.display = filter === 'all' || module.dataset.status === filter ? '' : 'none';
-    });
-  }));
-}
-
-function initAssistant() {
-  $('#assistantForm').addEventListener('submit', event => {
-    event.preventDefault();
-    askNova($('#assistantInput').value);
-  });
-}
-
-function handleGuideStep(button) {
-  const step = Number(button.dataset.step);
-  $$('.guide-step').forEach(item => {
-    const number = Number(item.dataset.step);
-    item.classList.toggle('done', number < step);
-    item.classList.toggle('active', number === step);
-    const badge = $('span', item);
-    badge.innerHTML = number < step ? icon('check') : String(number);
-  });
-  const tips = {
-    1: 'Quan sát ảnh mẫu: chủ thể nằm lệch trái, khoảng trống nằm bên phải.',
-    2: 'Dùng bút chì cỡ 6–12 px và vẽ các khối chính thật nhẹ.',
-    3: 'Thử bảng màu “Sao đêm” trong tab Màu sắc.',
-    4: 'Thêm một điểm sáng nhỏ để dẫn mắt người xem.'
-  };
-  showToast(tips[step]);
-}
-
-async function copyClassCode() {
-  try {
-    await navigator.clipboard.writeText('ART01');
-    showToast('Đã sao chép mã lớp ART01.', 'success');
-  } catch (_) {
-    showToast('Mã lớp của bạn là ART01.');
-  }
-}
-
-function handleAction(action) {
-  const actions = {
-    'continue-lesson': () => openLesson('composition'),
-    'start-challenge': () => {
-      setStudioLesson('color');
-      navigate('studio');
-      showToast('Thử thách: hãy tạo một hành tinh bằng 3 màu yêu thích.', 'success');
-    },
-    'open-assistant': openAssistant,
-    'close-assistant': closeAssistant,
-    'open-settings': openSettings,
-    'close-settings': closeSettings,
-    'close-lesson': closeLesson,
-    'save-project': () => saveProject(false),
-    'export-art': exportArt,
-    undo,
-    redo,
-    'add-layer': addLayer,
-    'clear-layer': clearActiveLayer,
-    'zoom-in': () => setZoom(zoom + .25),
-    'zoom-out': () => setZoom(zoom - .25),
-    'zoom-reset': () => setZoom(1),
-    'dismiss-hint': () => { $('#canvasHint').style.display = 'none'; },
-    'suggest-palette': () => {
-      setColor('#b6a4ff');
-      showToast('Nova đã chọn màu oải hương #B6A4FF cho điểm nhấn.', 'success');
-    },
-    'open-profile': () => showToast('Minh Anh · Cấp 3 · 1.240 XP'),
-    notifications: () => showToast('Bạn có 2 thông báo: bài tập mới và chuỗi học 5 ngày.'),
-    'copy-class-code': copyClassCode,
-    'upload-art': () => $('#artUpload').click()
-  };
-  if (actions[action]) actions[action]();
-}
-
-document.addEventListener('click', event => {
-  const view = event.target.closest('[data-view]');
-  if (view) {
-    navigate(view.dataset.view);
-    return;
-  }
-  const lesson = event.target.closest('[data-lesson]');
-  if (lesson) {
-    openLesson(lesson.dataset.lesson);
-    return;
-  }
-  const prompt = event.target.closest('[data-prompt]');
-  if (prompt) {
-    openAssistant();
-    askNova(prompt.dataset.prompt);
-    return;
-  }
-  const action = event.target.closest('[data-action]');
-  if (action) {
-    handleAction(action.dataset.action);
-    return;
-  }
-  const guideStep = event.target.closest('[data-step]');
-  if (guideStep) {
-    handleGuideStep(guideStep);
-    return;
-  }
-});
-
-$('#menuButton').addEventListener('click', () => {
-  $('#sidebar').classList.add('show');
-  $('#sidebarBackdrop').classList.add('show');
-});
-$('#sidebarBackdrop').addEventListener('click', closeSidebar);
-$('#startLessonButton').addEventListener('click', startLesson);
-$('#motionToggle').addEventListener('change', event => applyMotionSetting(event.target.checked));
-
-$$('.modal-backdrop').forEach(backdrop => backdrop.addEventListener('click', event => {
-  if (event.target !== backdrop) return;
-  if (backdrop.id === 'lessonModal') closeLesson();
-  if (backdrop.id === 'settingsModal') closeSettings();
-}));
-
-document.addEventListener('keydown', event => {
-  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
-    event.preventDefault();
-    $('#globalSearch').focus();
-  }
-  if (event.key === 'Escape') {
-    closeAssistant();
-    closeLesson();
-    closeSettings();
-    closeSidebar();
-    $('#searchResults').classList.remove('show');
-  }
-  if (currentView !== 'studio' || restoring) return;
-  const targetTag = event.target.tagName;
-  if (['INPUT', 'TEXTAREA'].includes(targetTag)) return;
-  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z') {
-    event.preventDefault();
-    if (event.shiftKey) redo(); else undo();
-    return;
-  }
-  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'y') {
-    event.preventDefault();
-    redo();
-    return;
-  }
-  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') {
-    event.preventDefault();
-    saveProject(false);
-    return;
-  }
-  const shortcuts = { b: 'brush', p: 'pencil', e: 'eraser', l: 'line', r: 'rectangle', o: 'circle', f: 'fill', i: 'eyedropper', h: 'hand' };
-  const tool = shortcuts[event.key.toLowerCase()];
-  if (tool && !event.ctrlKey && !event.metaKey) setTool(tool);
-  if (event.key.toLowerCase() === 'g' && !event.ctrlKey && !event.metaKey) {
-    $('#gridToggle').checked = !$('#gridToggle').checked;
-    $('#gridToggle').dispatchEvent(new Event('change'));
-  }
-});
-
-function restorePreferences() {
-  let motion = true;
-  try { motion = localStorage.getItem('artcanvas-motion') !== 'false'; } catch (_) {}
-  $('#motionToggle').checked = motion;
-  applyMotionSetting(motion);
-}
-
-restorePreferences();
-initSearch();
-initCanvas();
-initToolPanel();
-initLearningFilters();
-initGallery();
-initAssistant();
-requestAnimationFrame(positionOverlays);
-
-</script>
+  <script src="app.js"></script>
 </body>
 </html>
